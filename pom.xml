@@ -7,11 +7,12 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.0-dev</version>
+    <version>0.2.0-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
         <module>web</module>
+        <module>core</module>
     </modules>
 
     <properties>
@@ -21,11 +22,12 @@
 
         <!-- dependency versions -->
         <spark-java.version>2.7.1</spark-java.version>
-        <spring-context.version>4.3.9.RELEASE</spring-context.version>
+        <spring-framework.version>4.3.9.RELEASE</spring-framework.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <jackson.version>2.8.9</jackson.version>
         <commons.lang.version>3.6</commons.lang.version>
+        <h2.version>1.4.196</h2.version>
 
         <!-- compiler settings -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -38,10 +40,25 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- leaflet internal dependencies -->
+            <dependency>
+                <groupId>hu.psprog.leaflet</groupId>
+                <artifactId>cbfs-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- frameworks -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>${spring-context.version}</version>
+                <version>${spring-framework.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.sparkjava</groupId>
@@ -61,6 +78,18 @@
                 <version>${jackson.version}</version>
             </dependency>
 
+            <!-- persistence dependencies -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring-framework.version}</version>
+            </dependency>
+
             <!-- logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -76,6 +105,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
 
             <!-- other dependencies -->
@@ -103,6 +137,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
     </dependencies>
 
