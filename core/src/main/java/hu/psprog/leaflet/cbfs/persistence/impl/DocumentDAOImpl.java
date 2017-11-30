@@ -4,11 +4,9 @@ import hu.psprog.leaflet.cbfs.domain.Document;
 import hu.psprog.leaflet.cbfs.persistence.DocumentDAO;
 import hu.psprog.leaflet.cbfs.persistence.mapper.DocumentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +17,6 @@ import java.util.Map;
  */
 @Repository
 public class DocumentDAOImpl implements DocumentDAO {
-
-    private static final PreparedStatementCallback<Boolean> PREPARED_STATEMENT_CALLBACK = PreparedStatement::execute;
 
     private static final String LINK = "link";
     private static final String CONTENT = "content";
@@ -43,12 +39,12 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     public void storeDocument(Document document) {
-        failoverJdbcTemplate.execute(queryRegistry.getStoreDocumentQuery(), paramMap(document), PREPARED_STATEMENT_CALLBACK);
+        failoverJdbcTemplate.execute(queryRegistry.getStoreDocumentQuery(), paramMap(document), QueryRegistry.PREPARED_STATEMENT_CALLBACK);
     }
 
     @Override
     public void truncate() {
-        failoverJdbcTemplate.execute(queryRegistry.getTruncateDocumentsQuery(), PREPARED_STATEMENT_CALLBACK);
+        failoverJdbcTemplate.execute(queryRegistry.getTruncateDocumentsQuery(), QueryRegistry.PREPARED_STATEMENT_CALLBACK);
     }
 
     private Map<String, Object> paramMap(String link) {

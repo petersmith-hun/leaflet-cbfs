@@ -1,7 +1,10 @@
 package hu.psprog.leaflet.cbfs.persistence.impl;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Component;
+
+import java.sql.PreparedStatement;
 
 /**
  * Failover database query registry.
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 class QueryRegistry {
+
+    static final PreparedStatementCallback<Boolean> PREPARED_STATEMENT_CALLBACK = PreparedStatement::execute;
 
     @Value("${getPage}")
     private String pageQuery;
@@ -40,6 +45,15 @@ class QueryRegistry {
 
     @Value("${truncateDocuments}")
     private String truncateDocumentsQuery;
+
+    @Value("${getCategories}")
+    private String categoriesQuery;
+
+    @Value("${storeCategory}")
+    private String storeCategoryQuery;
+
+    @Value("${truncateCategories}")
+    private String truncateCategoriesQuery;
 
     String getPageQuery() {
         return pageQuery;
@@ -79,5 +93,17 @@ class QueryRegistry {
 
     String getTruncateDocumentsQuery() {
         return truncateDocumentsQuery;
+    }
+
+    String getCategoriesQuery() {
+        return categoriesQuery;
+    }
+
+    String getStoreCategoryQuery() {
+        return storeCategoryQuery;
+    }
+
+    String getTruncateCategoriesQuery() {
+        return truncateCategoriesQuery;
     }
 }

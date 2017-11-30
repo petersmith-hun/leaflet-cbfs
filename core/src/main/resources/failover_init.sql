@@ -14,3 +14,8 @@ create table cbfs_document (
   link varchar(255) not null primary key,
   content text
 );
+
+create table cbfs_category (
+  id int(11) not null primary key,
+  title varchar(255)
+)

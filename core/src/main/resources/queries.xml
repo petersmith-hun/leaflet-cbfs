@@ -61,6 +61,21 @@
                 <prop key="truncateDocuments">
                     TRUNCATE TABLE cbfs_document;
                 </prop>
+
+                <!-- category queries -->
+                <prop key="getCategories">
+                    SELECT *
+                    FROM cbfs_category;
+                </prop>
+                <prop key="storeCategory">
+                    INSERT INTO cbfs_category
+                        (id, title)
+                    VALUES
+                        (:id, :title);
+                </prop>
+                <prop key="truncateCategories">
+                    TRUNCATE TABLE cbfs_category;
+                </prop>
             </props>
         </property>
     </bean>

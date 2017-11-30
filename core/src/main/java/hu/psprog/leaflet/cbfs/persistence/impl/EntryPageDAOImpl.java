@@ -6,11 +6,9 @@ import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
 import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.persistence.mapper.LinkListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
  */
 @Repository
 public class EntryPageDAOImpl implements EntryPageDAO {
-
-    private static final PreparedStatementCallback<Boolean> PREPARED_STATEMENT_CALLBACK = PreparedStatement::execute;
 
     private static final String PAGE_NUMBER = "page_number";
     private static final String CATEGORY_ID = "category_id";
@@ -56,12 +52,12 @@ public class EntryPageDAOImpl implements EntryPageDAO {
 
     @Override
     public void storePage(EntryPage entryPage) {
-        failoverJdbcTemplate.execute(queryRegistry.getStorePageQuery(), paramMap(entryPage), PREPARED_STATEMENT_CALLBACK);
+        failoverJdbcTemplate.execute(queryRegistry.getStorePageQuery(), paramMap(entryPage), QueryRegistry.PREPARED_STATEMENT_CALLBACK);
     }
 
     @Override
     public void truncate() {
-        failoverJdbcTemplate.execute(queryRegistry.getTruncatePagesQuery(), PREPARED_STATEMENT_CALLBACK);
+        failoverJdbcTemplate.execute(queryRegistry.getTruncatePagesQuery(), QueryRegistry.PREPARED_STATEMENT_CALLBACK);
     }
 
     private List<Entry> queryPage(String query, Map<String, Object> paramMap) {
