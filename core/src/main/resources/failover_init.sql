@@ -1,8 +1,7 @@
 create table cbfs_entry_page (
   page_number int(11) not null,
-  category_id int(11) not null,
-  link_list text,
-  constraint page_pk primary key(page_number, category_id)
+  category_id int(11) default null,
+  link_list text
 );
 
 create table cbfs_entry (

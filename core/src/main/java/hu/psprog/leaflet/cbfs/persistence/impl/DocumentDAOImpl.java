@@ -3,7 +3,10 @@ package hu.psprog.leaflet.cbfs.persistence.impl;
 import hu.psprog.leaflet.cbfs.domain.Document;
 import hu.psprog.leaflet.cbfs.persistence.DocumentDAO;
 import hu.psprog.leaflet.cbfs.persistence.mapper.DocumentMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +20,8 @@ import java.util.Map;
  */
 @Repository
 public class DocumentDAOImpl implements DocumentDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentDAOImpl.class);
 
     private static final String LINK = "link";
     private static final String CONTENT = "content";
@@ -34,7 +39,15 @@ public class DocumentDAOImpl implements DocumentDAO {
 
     @Override
     public Document getByLink(String link) {
-        return failoverJdbcTemplate.queryForObject(queryRegistry.getDocumentQuery(), paramMap(link), documentMapper);
+
+        Document document = null;
+        try {
+            document = failoverJdbcTemplate.queryForObject(queryRegistry.getDocumentQuery(), paramMap(link), documentMapper);
+        } catch (EmptyResultDataAccessException exc) {
+            LOGGER.warn("Document [{}] not found", link, exc);
+        }
+
+        return document;
     }
 
     @Override

@@ -13,12 +13,12 @@
                 <prop key="getPage">
                     SELECT link_list
                     FROM cbfs_entry_page
-                    WHERE page_number = :page AND category_id IS NULL;
+                    WHERE page_number = :page_number AND category_id IS NULL;
                 </prop>
                 <prop key="getPageOfCategory">
                     SELECT link_list
                     FROM cbfs_entry_page
-                    WHERE page_number = :page AND category_id = :categoryID;
+                    WHERE page_number = :page_number AND category_id = :category_id;
                 </prop>
                 <prop key="storePage">
                     INSERT INTO cbfs_entry_page

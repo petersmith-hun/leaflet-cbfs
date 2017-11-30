@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class EntryPage {
 
-    private long categoryID;
     private int page;
+    private Long categoryID;
     private List<Entry> entries;
 
-    public long getCategoryID() {
+    public Long getCategoryID() {
         return categoryID;
     }
 
@@ -73,14 +73,14 @@ public class EntryPage {
      * Builder for {@link EntryPage}.
      */
     public static final class EntryPageBuilder {
-        private long categoryID;
         private int page;
+        private Long categoryID;
         private List<Entry> entries;
 
         private EntryPageBuilder() {
         }
 
-        public EntryPageBuilder withCategoryID(long categoryID) {
+        public EntryPageBuilder withCategoryID(Long categoryID) {
             this.categoryID = categoryID;
             return this;
         }

@@ -3,7 +3,10 @@ package hu.psprog.leaflet.cbfs.persistence.impl;
 import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
 import hu.psprog.leaflet.cbfs.persistence.mapper.EntryMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +20,8 @@ import java.util.Map;
  */
 @Repository
 public class EntryDAOImpl implements EntryDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntryDAOImpl.class);
 
     private static final String LINK = "link";
     private static final String CONTENT = "content";
@@ -34,7 +39,15 @@ public class EntryDAOImpl implements EntryDAO {
 
     @Override
     public Entry getByLink(String link) {
-        return failoverJdbcTemplate.queryForObject(queryRegistry.getEntryQuery(), paramMap(link), entryMapper);
+
+        Entry entry = null;
+        try {
+            entry = failoverJdbcTemplate.queryForObject(queryRegistry.getEntryQuery(), paramMap(link), entryMapper);
+        } catch (EmptyResultDataAccessException exc) {
+            LOGGER.warn("Entry [{}] not found", link, exc);
+        }
+
+        return entry;
     }
 
     @Override
