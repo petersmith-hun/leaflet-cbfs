@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder properties-ref="sqlQueries" />
+
+    <bean id="sqlQueries" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+
+                <!-- entry page queries -->
+                <prop key="getPage">
+                    SELECT link_list
+                    FROM cbfs_entry_page
+                    WHERE page_number = :page_number AND category_id IS NULL;
+                </prop>
+                <prop key="getPageOfCategory">
+                    SELECT link_list
+                    FROM cbfs_entry_page
+                    WHERE page_number = :page_number AND category_id = :category_id;
+                </prop>
+                <prop key="storePage">
+                    INSERT INTO cbfs_entry_page
+                        (page_number, category_id, link_list)
+                    VALUES
+                        (:page_number, :category_id, :link_list);
+                </prop>
+                <prop key="truncatePages">
+                    TRUNCATE TABLE cbfs_entry_page;
+                </prop>
+
+                <!-- entry queries -->
+                <prop key="getEntry">
+                    SELECT *
+                    FROM cbfs_entry
+                    WHERE link = :link;
+                </prop>
+                <prop key="storeEntry">
+                    INSERT INTO cbfs_entry
+                        (link, content)
+                    VALUES
+                        (:link, :content)
+                </prop>
+                <prop key="truncateEntries">
+                    TRUNCATE TABLE cbfs_entry;
+                </prop>
+
+                <!-- document queries -->
+                <prop key="getDocument">
+                    SELECT *
+                    FROM cbfs_document
+                    WHERE link = :link;
+                </prop>
+                <prop key="storeDocument">
+                    INSERT INTO cbfs_document
+                        (link, content)
+                    VALUES
+                        (:link, :content)
+                </prop>
+                <prop key="truncateDocuments">
+                    TRUNCATE TABLE cbfs_document;
+                </prop>
+
+                <!-- category queries -->
+                <prop key="getCategories">
+                    SELECT *
+                    FROM cbfs_category;
+                </prop>
+                <prop key="storeCategory">
+                    INSERT INTO cbfs_category
+                        (id, title)
+                    VALUES
+                        (:id, :title);
+                </prop>
+                <prop key="truncateCategories">
+                    TRUNCATE TABLE cbfs_category;
+                </prop>
+            </props>
+        </property>
+    </bean>
+</beans>

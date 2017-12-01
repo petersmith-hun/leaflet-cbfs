@@ -1,0 +1,6 @@
+insert into cbfs_document
+  (link, content)
+values
+  ('testdocument-1-171130', '{"body":{"id":1,"title":"Testdocument 1","link":"testdocument-1-171130","content":"Document content","user":{"id":1,"username":"Test Author"},"created":"2017. November 30. 20:00","locale":"HU"},"pagination":null,"seo":{"pageTitle":"Leaflet Blog Engine IT","metaTitle":"Default SEO title","metaDescription":"Default SEO description","metaKeywords":"Default SEO keywords"},"error":null}'),
+  ('testdocument-2-171130', '{"body":{"id":2,"title":"Testdocument 2","link":"testdocument-2-171130","content":"Document content","user":{"id":1,"username":"Test Author"},"created":"2017. November 30. 20:00","locale":"HU"},"pagination":null,"seo":{"pageTitle":"Leaflet Blog Engine IT","metaTitle":"Default SEO title","metaDescription":"Default SEO description","metaKeywords":"Default SEO keywords"},"error":null}'),
+  ('testdocument-3-171130', '{"body":{"id":3,"title":"Testdocument 3","link":"testdocument-3-171130","content":"Document content","user":{"id":1,"username":"Test Author"},"created":"2017. November 30. 20:00","locale":"HU"},"pagination":null,"seo":{"pageTitle":"Leaflet Blog Engine IT","metaTitle":"Default SEO title","metaDescription":"Default SEO description","metaKeywords":"Default SEO keywords"},"error":null}');
