@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Peter Smith
  */
-public interface CategoryDAO {
+public interface CategoryDAO extends TruncateCapableDAO {
 
     /**
      * Returns {@link List} of {@link Category} objects.
@@ -24,9 +24,4 @@ public interface CategoryDAO {
      * @param category {@link Category} object to store
      */
     void storeCategory(Category category);
-
-    /**
-     * Truncates table of {@link Category} objects.
-     */
-    void truncate();
 }

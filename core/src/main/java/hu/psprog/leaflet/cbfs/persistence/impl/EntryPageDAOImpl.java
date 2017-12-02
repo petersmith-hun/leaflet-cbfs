@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +49,13 @@ public class EntryPageDAOImpl implements EntryPageDAO {
     @Override
     public List<Entry> getPageOfCategory(int page, long categoryID) {
         return queryPage(queryRegistry.getPageOfCategoryQuery(), paramMap(page, categoryID));
+    }
+
+    @Override
+    public Set<String> collectAllEntryLinks() {
+        return failoverJdbcTemplate.query(queryRegistry.getAllEntryLinks(), linkListMapper).stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
     }
 
     @Override

@@ -7,7 +7,7 @@ import hu.psprog.leaflet.cbfs.domain.Entry;
  *
  * @author Peter Smith
  */
-public interface EntryDAO {
+public interface EntryDAO extends TruncateCapableDAO {
 
     /**
      * Retrieves {@link Entry} identified by given link.
@@ -23,9 +23,4 @@ public interface EntryDAO {
      * @param entry {@link Entry} object to store
      */
     void storeEntry(Entry entry);
-
-    /**
-     * Truncate table of {@link Entry} objects.
-     */
-    void truncate();
 }

@@ -22,6 +22,9 @@ class QueryRegistry {
     @Value("${getPageOfCategory}")
     private String pageOfCategoryQuery;
 
+    @Value("${getAllEntryLinks}")
+    private String allEntryLinks;
+
     @Value("${storePage}")
     private String storePageQuery;
 
@@ -61,6 +64,10 @@ class QueryRegistry {
 
     String getPageOfCategoryQuery() {
         return pageOfCategoryQuery;
+    }
+
+    String getAllEntryLinks() {
+        return allEntryLinks;
     }
 
     String getStorePageQuery() {
