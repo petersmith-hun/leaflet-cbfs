@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * {@link DataMirroringService} implementation for document data mirroring.
+ *
  * @author Peter Smith
  */
 @Service

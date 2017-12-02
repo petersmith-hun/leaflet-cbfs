@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * {@link DataMirroringService} implementation for category data mirroring.
+ *
  * @author Peter Smith
  */
 @Service

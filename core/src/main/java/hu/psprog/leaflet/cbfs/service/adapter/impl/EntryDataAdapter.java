@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * Implementation of {@link DataAdapter} for entries.
+ *  - data source is {@link EntryBridgeService#getEntryByLink(String)} method
+ *  - data key is the link of the entry as String
+ *
  * @author Peter Smith
  */
 @Component

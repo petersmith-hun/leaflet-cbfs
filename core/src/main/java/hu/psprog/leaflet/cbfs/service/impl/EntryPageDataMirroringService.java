@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * {@link DataMirroringService} implementation for entry page data mirroring.
+ *
  * @author Peter Smith
  */
 @Service

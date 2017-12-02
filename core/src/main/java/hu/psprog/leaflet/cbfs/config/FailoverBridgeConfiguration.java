@@ -18,6 +18,8 @@ import javax.ws.rs.client.WebTarget;
 import java.util.UUID;
 
 /**
+ * Custom configuration for Bridge.
+ *
  * @author Peter Smith
  */
 @Configuration

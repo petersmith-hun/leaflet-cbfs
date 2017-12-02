@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * {@link StorageTransformer} implementation to convert {@link WrapperBodyDataModel<EntryListDataModel>} object to {@link EntryPage} domain object.
+ * Key type is {@link EntryPageKey} because of the complex key (page number and category ID).
+ *
  * @author Peter Smith
  */
 @Component

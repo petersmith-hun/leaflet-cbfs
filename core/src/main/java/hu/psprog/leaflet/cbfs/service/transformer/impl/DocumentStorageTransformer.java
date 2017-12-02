@@ -6,6 +6,9 @@ import hu.psprog.leaflet.cbfs.domain.Document;
 import org.springframework.stereotype.Component;
 
 /**
+ * {@link AbstractStorageTransformer} implementation to convert {@link WrapperBodyDataModel<DocumentDataModel>} object to {@link Document} domain object.
+ * Document content must be converted to JSON.
+ *
  * @author Peter Smith
  */
 @Component

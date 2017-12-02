@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
+ * Key wrapper class for entry page complex primary key.
+ *
  * @author Peter Smith
  */
 public class EntryPageKey {

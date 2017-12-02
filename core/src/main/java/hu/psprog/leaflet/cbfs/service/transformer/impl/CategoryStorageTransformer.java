@@ -6,6 +6,8 @@ import hu.psprog.leaflet.cbfs.service.transformer.StorageTransformer;
 import org.springframework.stereotype.Component;
 
 /**
+ * {@link StorageTransformer} implementation to convert {@link CategoryDataModel} object to {@link Category} domain object.
+ *
  * @author Peter Smith
  */
 @Component

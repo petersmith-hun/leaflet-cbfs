@@ -12,6 +12,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * Scheduled (once a day by default) job for mirroring live data.
+ *
  * @author Peter Smith
  */
 @Component

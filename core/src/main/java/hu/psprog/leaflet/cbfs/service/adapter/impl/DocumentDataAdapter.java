@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * Implementation of {@link DataAdapter} for documents.
+ *  - data source is {@link DocumentBridgeService#getDocumentByLink(String)} method
+ *  - data key is the link of the document as String
+ *
  * @author Peter Smith
  */
 @Component

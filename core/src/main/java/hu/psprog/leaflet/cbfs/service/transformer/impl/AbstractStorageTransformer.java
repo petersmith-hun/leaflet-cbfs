@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * Abstract {@link StorageTransformer} implementation that is able to convert source object to JSON.
+ *
  * @author Peter Smith
  */
 abstract class AbstractStorageTransformer<K, S, T> implements StorageTransformer<K, S, T> {

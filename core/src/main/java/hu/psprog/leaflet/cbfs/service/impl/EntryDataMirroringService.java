@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 /**
+ * {@link DataMirroringService} implementation for entry data mirroring.
+ *
  * @author Peter Smith
  */
 @Service

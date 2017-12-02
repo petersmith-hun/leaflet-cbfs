@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * Implementation of {@link DataAdapter} for categories.
+ *  - data source is {@link CategoryBridgeService#getPublicCategories()} method
+ *  - data key is Void we request all public categories without any filtering
+ *
  * @author Peter Smith
  */
 @Component

@@ -6,6 +6,9 @@ import hu.psprog.leaflet.cbfs.domain.Entry;
 import org.springframework.stereotype.Component;
 
 /**
+ * {@link AbstractStorageTransformer} implementation to convert {@link WrapperBodyDataModel<ExtendedEntryDataModel>} object to {@link Entry} domain object.
+ * Entry content must be converted to JSON.
+ *
  * @author Peter Smith
  */
 @Component

@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * {@link RequestAuthentication} implementation required by Bridge to be able to authenticate requests.
+ * Currently no protected endpoint is required for CBFS, so this is no-operation implementation as we won't need authentication.
+ *
  * @author Peter Smith
  */
 @Component
