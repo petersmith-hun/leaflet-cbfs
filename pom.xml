@@ -321,6 +321,11 @@
                         <configuration>
                             <dataFile>${project.build.directory}/coverage/jacoco-ut.exec</dataFile>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                            <excludes>
+                                <exclude>**/persistence/**</exclude>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/domain/**</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
@@ -343,6 +348,9 @@
                         <configuration>
                             <dataFile>${project.build.directory}/coverage/jacoco-it.exec</dataFile>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                            <includes>
+                                <include>**/persistence/**</include>
+                            </includes>
                         </configuration>
                     </execution>
                 </executions>

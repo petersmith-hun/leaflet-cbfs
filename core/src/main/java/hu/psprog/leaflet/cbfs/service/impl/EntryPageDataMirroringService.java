@@ -14,6 +14,7 @@ import hu.psprog.leaflet.cbfs.service.adapter.impl.NonCategorizedEntryPageDataAd
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -34,6 +35,9 @@ public class EntryPageDataMirroringService implements DataMirroringService {
     private NonCategorizedEntryPageDataAdapter nonCategorizedEntryPageDataAdapter;
     private CategorizedEntryPageDataAdapter categorizedEntryPageDataAdapter;
     private CategoryDAO categoryDAO;
+
+    @Value("${mirroring.pages.max}")
+    private int maxPages;
 
     @Autowired
     public EntryPageDataMirroringService(MirroringConfiguration mirroringConfiguration, NonCategorizedEntryPageDataAdapter nonCategorizedEntryPageDataAdapter,
@@ -74,6 +78,12 @@ public class EntryPageDataMirroringService implements DataMirroringService {
                 dataPage = dataAdapter.retrieve(pageKey);
                 dataAdapter.store(pageKey, dataPage);
                 LOGGER.info("Collected page [{}] for category [{}] with [{}] entries on page", page, categoryID, dataPage.getBody().getEntries().size());
+
+                if (page >= maxPages) {
+                    LOGGER.warn("Iteration reached max pages ({}). Breaking loop.", page);
+                    break;
+                }
+
                 page++;
             } while (dataPage.getPagination().isHasNext());
         }
