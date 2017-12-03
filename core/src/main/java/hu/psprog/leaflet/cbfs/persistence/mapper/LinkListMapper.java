@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Maps 'link_list' field to {@link List} of {@link String} objects.
@@ -21,6 +22,8 @@ public class LinkListMapper implements RowMapper<List<String>> {
 
     @Override
     public List<String> mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return Arrays.asList(rs.getString(COLUMN_LINK_LIST).split(LIST_SEPARATOR));
+        return Arrays.stream(rs.getString(COLUMN_LINK_LIST).split(LIST_SEPARATOR))
+                .filter(link -> !link.isEmpty())
+                .collect(Collectors.toList());
     }
 }

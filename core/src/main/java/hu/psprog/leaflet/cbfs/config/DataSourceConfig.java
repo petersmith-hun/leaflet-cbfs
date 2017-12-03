@@ -1,9 +1,12 @@
 package hu.psprog.leaflet.cbfs.config;
 
+import org.h2.tools.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -11,6 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Data source and DAO bean configuration.
@@ -46,5 +50,14 @@ public class DataSourceConfig {
         txManager.setDataSource(failoverDataSource);
 
         return txManager;
+    }
+
+    @Bean
+    @DependsOn("failoverJdbcTemplate")
+    @Profile("development")
+    public Server h2Server() throws SQLException {
+        return Server
+                .createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9956")
+                .start();
     }
 }

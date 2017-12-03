@@ -7,7 +7,7 @@ import hu.psprog.leaflet.cbfs.domain.Document;
  * 
  * @author Peter Smith
  */
-public interface DocumentDAO {
+public interface DocumentDAO extends TruncateCapableDAO {
 
     /**
      * Retrieves {@link Document} identified by given link.
@@ -23,9 +23,4 @@ public interface DocumentDAO {
      * @param document {@link Document} object to store
      */
     void storeDocument(Document document);
-
-    /**
-     * Truncate table of {@link Document} objects.
-     */
-    void truncate();
 }

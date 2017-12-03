@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -127,6 +128,20 @@ public class EntryPageDAOImplIT {
         assertThat(storedPage.size(), equalTo(2));
         assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_2_LINK)), is(true));
         assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_3_LINK)), is(true));
+    }
+
+    @Test
+    @Transactional
+    @Sql(FailoverPersistenceITConfig.INTEGRATION_TEST_DB_SCRIPT_PAGES)
+    public void shouldReturnListOfLinks() {
+
+        // when
+        Set<String> result = entryPageDAO.collectAllEntryLinks();
+
+        // then
+        assertThat(result, notNullValue());
+        assertThat(result.size(), equalTo(3));
+        assertThat(result.containsAll(Arrays.asList(ENTRY_1_LINK, ENTRY_2_LINK, ENTRY_3_LINK)), is(true));
     }
 
     @Test

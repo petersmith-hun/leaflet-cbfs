@@ -4,13 +4,14 @@ import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.domain.EntryPage;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * {@link EntryPage} related DAO operations.
  *
  * @author Peter Smith
  */
-public interface EntryPageDAO {
+public interface EntryPageDAO extends TruncateCapableDAO {
 
     /**
      * Retrieves {@link List} of {@link Entry} objects for given page number.
@@ -30,14 +31,16 @@ public interface EntryPageDAO {
     List<Entry> getPageOfCategory(int page, long categoryID);
 
     /**
+     * Retrieves all entry links that are stored under the pages.
+     *
+     * @return list of links
+     */
+    Set<String> collectAllEntryLinks();
+
+    /**
      * Stores given {@link EntryPage} object.
      *
      * @param entryPage the {@link EntryPage} object to store
      */
     void storePage(EntryPage entryPage);
-
-    /**
-     * Truncates table of {@link EntryPage} objects.
-     */
-    void truncate();
 }
