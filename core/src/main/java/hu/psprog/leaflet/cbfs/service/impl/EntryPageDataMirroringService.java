@@ -72,8 +72,9 @@ public class EntryPageDataMirroringService implements DataMirroringService {
 
         WrapperBodyDataModel<EntryListDataModel> dataPage;
         for (Long categoryID : categoryIDList) {
-            int page = mirroringConfiguration.getFirstPage();
-            do {
+            boolean hasNextPage = true;
+            for (int page = mirroringConfiguration.getFirstPage(); hasNextPage; page++, hasNextPage = dataPage.getPagination().isHasNext()) {
+
                 EntryPageKey pageKey = EntryPageKey.build(page, categoryID);
                 dataPage = dataAdapter.retrieve(pageKey);
                 dataAdapter.store(pageKey, dataPage);
@@ -83,9 +84,7 @@ public class EntryPageDataMirroringService implements DataMirroringService {
                     LOGGER.warn("Iteration reached max pages ({}). Breaking loop.", page);
                     break;
                 }
-
-                page++;
-            } while (dataPage.getPagination().isHasNext());
+            }
         }
     }
 

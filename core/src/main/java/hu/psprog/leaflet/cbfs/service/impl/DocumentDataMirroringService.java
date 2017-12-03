@@ -2,7 +2,7 @@ package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.document.DocumentDataModel;
-import hu.psprog.leaflet.api.rest.response.document.DocumentListDataModel;
+import hu.psprog.leaflet.api.rest.response.document.EditDocumentDataModel;
 import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.DocumentDataAdapter;
@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * {@link DataMirroringService} implementation for document data mirroring.
@@ -35,9 +37,9 @@ public class DocumentDataMirroringService implements DataMirroringService {
 
         try {
             LOGGER.info("Start collecting document data...");
-            DocumentListDataModel documentList = documentBridgeService.getPublicDocuments();
-            LOGGER.info("Start collecting document data for [{}] documents.", documentList.getDocuments().size());
-            documentList.getDocuments().forEach(document -> {
+            List<EditDocumentDataModel> documentList = documentBridgeService.getPublicDocuments().getDocuments();
+            LOGGER.info("Start collecting document data for [{}] documents.", documentList.size());
+            documentList.forEach(document -> {
                 try {
                     WrapperBodyDataModel<DocumentDataModel> result = documentDataAdapter.retrieve(document.getLink());
                     documentDataAdapter.store(document.getLink(), result);

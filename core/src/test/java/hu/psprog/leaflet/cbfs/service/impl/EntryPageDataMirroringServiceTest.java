@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
 public class EntryPageDataMirroringServiceTest {
 
     private static final int FIRST_PAGE = 1;
-    private static final int MAX_PAGES = 5;
+    private static final int MAX_PAGES = 10;
 
     @Mock
     private MirroringConfiguration mirroringConfiguration;
