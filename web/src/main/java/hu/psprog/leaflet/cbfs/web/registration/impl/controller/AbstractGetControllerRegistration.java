@@ -22,8 +22,15 @@ abstract class AbstractGetControllerRegistration implements SparkRegistration {
 
     abstract Route route();
 
+    Integer extractIntegerParameter(Request request, PathParameter parameter) {
+        return Integer.parseInt(extractParameter(request, parameter));
+    }
 
-    <T> T extractParameter(Request request, PathParameter parameter, Class<T> asType) {
-        return asType.cast(request.params(parameter.getParameterName()));
+    Long extractLongParameter(Request request, PathParameter parameter) {
+        return Long.parseLong(extractParameter(request, parameter));
+    }
+
+    String extractParameter(Request request, PathParameter parameter) {
+        return request.params(parameter.getParameterName());
     }
 }

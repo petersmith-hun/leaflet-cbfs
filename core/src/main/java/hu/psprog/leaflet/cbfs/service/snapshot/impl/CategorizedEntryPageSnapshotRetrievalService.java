@@ -23,6 +23,6 @@ public class CategorizedEntryPageSnapshotRetrievalService implements SnapshotRet
 
     @Override
     public String retrieve(EntryPageKey key) {
-        return null;
+        return entryPageDAO.getPageOfCategory(key.getPage(), key.getCategoryID());
     }
 }

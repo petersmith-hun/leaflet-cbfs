@@ -30,6 +30,6 @@ public class EntryByLinkControllerRegistration extends AbstractGetControllerRegi
 
     @Override
     Route route() {
-        return (request, response) -> retrievalService.retrieve(extractParameter(request, PathParameter.LINK, String.class));
+        return (request, response) -> retrievalService.retrieve(extractParameter(request, PathParameter.LINK));
     }
 }

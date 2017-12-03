@@ -23,6 +23,6 @@ public class NonCategorizedEntryPageSnapshotRetrievalService implements Snapshot
 
     @Override
     public String retrieve(EntryPageKey key) {
-        return null;
+        return entryPageDAO.getPage(key.getPage());
     }
 }

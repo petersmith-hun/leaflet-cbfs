@@ -36,6 +36,6 @@ public class CategorizedEntryPageControllerRegistration extends AbstractGetContr
     }
 
     private EntryPageKey createEntryPageKey(Request request) {
-        return EntryPageKey.build(extractParameter(request, PathParameter.PAGE, Integer.class), extractParameter(request, PathParameter.CATEGORY_ID, Long.class));
+        return EntryPageKey.build(extractIntegerParameter(request, PathParameter.PAGE), extractLongParameter(request, PathParameter.CATEGORY_ID));
     }
 }
