@@ -1,7 +1,7 @@
 package hu.psprog.leaflet.cbfs.service.snapshot.impl;
 
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
-import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
+import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.service.snapshot.SnapshotRetrievalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategorizedEntryPageSnapshotRetrievalService implements SnapshotRetrievalService<EntryPageKey> {
 
-    private EntryDAO entryDAO;
+    private EntryPageDAO entryPageDAO;
 
     @Autowired
-    public CategorizedEntryPageSnapshotRetrievalService(EntryDAO entryDAO) {
-        this.entryDAO = entryDAO;
+    public CategorizedEntryPageSnapshotRetrievalService(EntryPageDAO entryPageDAO) {
+        this.entryPageDAO = entryPageDAO;
     }
 
     @Override

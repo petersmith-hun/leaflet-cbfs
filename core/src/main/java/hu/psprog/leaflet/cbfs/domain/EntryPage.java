@@ -18,7 +18,8 @@ public class EntryPage {
 
     private int page;
     private Long categoryID;
-    private List<Entry> entries;
+    private List<String> entries;
+    private String content;
 
     public Long getCategoryID() {
         return categoryID;
@@ -28,8 +29,12 @@ public class EntryPage {
         return page;
     }
 
-    public List<Entry> getEntries() {
+    public List<String> getEntries() {
         return entries;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     @Override
@@ -44,6 +49,7 @@ public class EntryPage {
                 .append(categoryID, entryPage.categoryID)
                 .append(page, entryPage.page)
                 .append(entries, entryPage.entries)
+                .append(content, entryPage.content)
                 .isEquals();
     }
 
@@ -53,6 +59,7 @@ public class EntryPage {
                 .append(categoryID)
                 .append(page)
                 .append(entries)
+                .append(content)
                 .toHashCode();
     }
 
@@ -62,6 +69,7 @@ public class EntryPage {
                 .append("categoryID", categoryID)
                 .append("page", page)
                 .append("entries", entries)
+                .append("content", content)
                 .toString();
     }
 
@@ -75,7 +83,8 @@ public class EntryPage {
     public static final class EntryPageBuilder {
         private int page;
         private Long categoryID;
-        private List<Entry> entries;
+        private List<String> entries;
+        private String content;
 
         private EntryPageBuilder() {
         }
@@ -90,8 +99,13 @@ public class EntryPage {
             return this;
         }
 
-        public EntryPageBuilder withEntries(List<Entry> entries) {
+        public EntryPageBuilder withEntries(List<String> entries) {
             this.entries = entries;
+            return this;
+        }
+
+        public EntryPageBuilder withContent(String content) {
+            this.content = content;
             return this;
         }
 
@@ -100,6 +114,7 @@ public class EntryPage {
             entryPage.entries = this.entries;
             entryPage.categoryID = this.categoryID;
             entryPage.page = this.page;
+            entryPage.content = this.content;
             return entryPage;
         }
     }

@@ -1,5 +1,7 @@
 package hu.psprog.leaflet.cbfs.service.transformer.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.EntryDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.EntryListDataModel;
@@ -9,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -16,6 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
 
 /**
  * Unit tests for {@link EntryPageStorageTransformer}.
@@ -29,6 +33,10 @@ public class EntryPageStorageTransformerTest {
     private static final Long CATEGORY_ID = 3L;
     private static final String LINK_1 = "link-1";
     private static final String LINK_2 = "link-2";
+    private static final String CONVERTED_SOURCE = "{...json...}";
+
+    @Mock
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private EntryPageStorageTransformer entryPageStorageTransformer;
@@ -36,8 +44,9 @@ public class EntryPageStorageTransformerTest {
     private WrapperBodyDataModel<EntryListDataModel> source;
 
     @Before
-    public void setup() {
+    public void setup() throws JsonProcessingException {
         source = prepareWrapper();
+        given(objectMapper.writeValueAsString(source)).willReturn(CONVERTED_SOURCE);
     }
 
     @Test
@@ -71,8 +80,9 @@ public class EntryPageStorageTransformerTest {
         assertThat(result.getPage(), equalTo(PAGE_NUMBER));
         assertThat(result.getCategoryID(), categoryIDPresent ? equalTo(CATEGORY_ID) : nullValue());
         assertThat(result.getEntries().size(), equalTo(2));
-        assertThat(result.getEntries().stream().anyMatch(entry -> LINK_1.equals(entry.getLink())), is(true));
-        assertThat(result.getEntries().stream().anyMatch(entry -> LINK_2.equals(entry.getLink())), is(true));
+        assertThat(result.getEntries().stream().anyMatch(LINK_1::equals), is(true));
+        assertThat(result.getEntries().stream().anyMatch(LINK_2::equals), is(true));
+        assertThat(result.getContent(), equalTo(CONVERTED_SOURCE));
     }
 
     private WrapperBodyDataModel<EntryListDataModel> prepareWrapper() {
