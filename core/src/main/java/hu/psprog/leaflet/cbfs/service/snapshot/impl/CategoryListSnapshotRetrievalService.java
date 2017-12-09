@@ -41,13 +41,14 @@ public class CategoryListSnapshotRetrievalService implements SnapshotRetrievalSe
     public String retrieve(Void key) {
 
         Map<String, Map<String, List<Category>>> result = buildWrapper(categoryDAO.getCategories());
+        String snapshot = StringUtils.EMPTY;
         try {
-            return objectMapper.writeValueAsString(result);
+            snapshot = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             LOGGER.error("Failed to convert category list to JSON.", e);
         }
 
-        return StringUtils.EMPTY;
+        return snapshot;
     }
 
     private Map<String, Map<String, List<Category>>> buildWrapper(List<Category> categoryList) {

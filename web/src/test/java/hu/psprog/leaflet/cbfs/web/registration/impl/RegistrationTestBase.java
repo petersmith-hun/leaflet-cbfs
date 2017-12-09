@@ -20,7 +20,7 @@ public abstract class RegistrationTestBase {
 
     private static final String ACCEPT_TYPE = "*/*";
     private static final String FIELD_ROUTES = "routes";
-    private static final String FIELD_GET_INSTANCE = "getInstance";
+    private static final String METHOD_GET_INSTANCE = "getInstance";
 
     protected RouteMatch getRouteMatch(HttpMethod method, String url) {
         return getRegisteredRoutes().find(method, url, ACCEPT_TYPE);
@@ -40,7 +40,7 @@ public abstract class RegistrationTestBase {
 
     private Service getServiceInstance() {
 
-        Method getInstanceMethod = ReflectionUtils.findMethod(Spark.class, FIELD_GET_INSTANCE);
+        Method getInstanceMethod = ReflectionUtils.findMethod(Spark.class, METHOD_GET_INSTANCE);
         getInstanceMethod.setAccessible(true);
 
         try {
