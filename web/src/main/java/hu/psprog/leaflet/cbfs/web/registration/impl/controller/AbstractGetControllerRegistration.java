@@ -1,11 +1,15 @@
 package hu.psprog.leaflet.cbfs.web.registration.impl.controller;
 
 import hu.psprog.leaflet.cbfs.web.registration.SparkRegistration;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import spark.Request;
 import spark.Route;
 import spark.Spark;
+
+import java.util.Optional;
 
 /**
  * Abstract {@link SparkRegistration} implementation for controller registration.
@@ -17,10 +21,13 @@ abstract class AbstractGetControllerRegistration implements SparkRegistration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGetControllerRegistration.class);
 
+    @Value("${spark.context-root}")
+    private String contextRoot;
+
     @Override
     public void register() {
-        Spark.get(path(), route());
-        LOGGER.info("[GET {}] route registered.", path());
+        Spark.get(pathWithContextRoot(), route());
+        LOGGER.info("[GET {}] route registered.", pathWithContextRoot());
     }
 
     abstract String path();
@@ -58,5 +65,14 @@ abstract class AbstractGetControllerRegistration implements SparkRegistration {
      */
     String extractParameter(Request request, PathParameter parameter) {
         return request.params(parameter.getParameterName());
+    }
+
+    private String pathWithContextRoot() {
+        return getContextRoot() + path();
+    }
+
+    private String getContextRoot() {
+        return Optional.ofNullable(contextRoot)
+                .orElse(StringUtils.EMPTY);
     }
 }
