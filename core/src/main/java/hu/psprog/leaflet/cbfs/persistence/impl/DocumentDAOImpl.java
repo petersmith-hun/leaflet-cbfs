@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Implementation of {@link DocumentDAO};
@@ -48,8 +47,7 @@ public class DocumentDAOImpl implements DocumentDAO {
             LOGGER.warn("Document [{}] not found", link, exc);
         }
 
-        return Optional.ofNullable(document)
-                .orElse(Document.getBuilder().build());
+        return document;
     }
 
     @Override

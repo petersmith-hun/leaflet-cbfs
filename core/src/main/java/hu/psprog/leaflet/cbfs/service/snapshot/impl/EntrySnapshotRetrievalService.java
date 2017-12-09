@@ -1,9 +1,13 @@
 package hu.psprog.leaflet.cbfs.service.snapshot.impl;
 
+import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
 import hu.psprog.leaflet.cbfs.service.snapshot.SnapshotRetrievalService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * {@link SnapshotRetrievalService} implementation for entries.
@@ -22,6 +26,8 @@ public class EntrySnapshotRetrievalService implements SnapshotRetrievalService<S
 
     @Override
     public String retrieve(String key) {
-        return entryDAO.getByLink(key).getContent();
+        return Optional.ofNullable(entryDAO.getByLink(key))
+                .map(Entry::getContent)
+                .orElse(StringUtils.EMPTY);
     }
 }

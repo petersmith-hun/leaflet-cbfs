@@ -1,9 +1,13 @@
 package hu.psprog.leaflet.cbfs.service.snapshot.impl;
 
+import hu.psprog.leaflet.cbfs.domain.Document;
 import hu.psprog.leaflet.cbfs.persistence.DocumentDAO;
 import hu.psprog.leaflet.cbfs.service.snapshot.SnapshotRetrievalService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * {@link SnapshotRetrievalService} implementation for documents.
@@ -22,6 +26,8 @@ public class DocumentSnapshotRetrievalService implements SnapshotRetrievalServic
 
     @Override
     public String retrieve(String key) {
-        return documentDAO.getByLink(key).getContent();
+        return Optional.ofNullable(documentDAO.getByLink(key))
+                .map(Document::getContent)
+                .orElse(StringUtils.EMPTY);
     }
 }

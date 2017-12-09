@@ -14,16 +14,16 @@ import java.util.function.Consumer;
  * @author Peter Smith
  */
 @Component
-public class SparkRegistrationConfiguration {
+public class SparkRegistrationAgent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SparkRegistrationConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SparkRegistrationAgent.class);
     private static final Consumer<SparkRegistration> REGISTRATION_LOGGING =
             sparkRegistration -> LOGGER.info("Registering {} ...", sparkRegistration.getClass().getName());
 
     private List<SparkRegistration> registrations;
 
     @Autowired
-    public SparkRegistrationConfiguration(List<SparkRegistration> registrations) {
+    public SparkRegistrationAgent(List<SparkRegistration> registrations) {
         this.registrations = registrations;
     }
 

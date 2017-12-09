@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Implementation of {@link EntryDAO}.
@@ -48,8 +47,7 @@ public class EntryDAOImpl implements EntryDAO {
             LOGGER.warn("Entry [{}] not found", link, exc);
         }
 
-        return Optional.ofNullable(entry)
-                .orElse(Entry.getBuilder().build());
+        return entry;
     }
 
     @Override
