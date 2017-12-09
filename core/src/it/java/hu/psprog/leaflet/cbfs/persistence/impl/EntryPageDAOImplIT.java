@@ -1,9 +1,9 @@
 package hu.psprog.leaflet.cbfs.persistence.impl;
 
-import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.domain.EntryPage;
 import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.persistence.config.FailoverPersistenceITConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -32,11 +31,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @ActiveProfiles(FailoverPersistenceITConfig.PERSISTENCE_IT)
 public class EntryPageDAOImplIT {
 
+    private static final String NON_CATEGORIZED_FIRST_PAGE_CONTENT = "{json.page.1.null}";
+    private static final String NON_CATEGORIZED_SECOND_PAGE_CONTENT = "{json.page.2.null}";
+    private static final String CATEGORIZED_FIRST_PAGE_CONTENT = "{json.page.1.1}";
+    private static final String NEW_NON_CATEGORIZED_PAGED_CONTENT = "{json.page.4.null}";
+    private static final String NEW_CATEGORIZED_PAGED_CONTENT = "{json.page.4.5}";
+
     private static final String ENTRY_1_LINK = "testentry-1-171130";
     private static final String ENTRY_2_LINK = "testentry-2-171130";
     private static final String ENTRY_3_LINK = "testentry-3-171130";
 
-    private static final int PAGE_NUMBER = 2;
+    private static final int NEW_PAGE_NUMBER = 4;
     private static final long CATEGORY_ID = 5;
 
     @Autowired
@@ -51,13 +56,11 @@ public class EntryPageDAOImplIT {
         int page = 1;
 
         // when
-        List<Entry> result = entryPageDAO.getPage(page);
+        String result = entryPageDAO.getPage(page);
 
         // then
         assertThat(result, notNullValue());
-        assertThat(result.size(), equalTo(2));
-        assertThat(result.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_1_LINK)), is(true));
-        assertThat(result.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_2_LINK)), is(true));
+        assertThat(result, equalTo(NON_CATEGORIZED_FIRST_PAGE_CONTENT));
     }
 
     @Test
@@ -69,12 +72,11 @@ public class EntryPageDAOImplIT {
         int page = 2;
 
         // when
-        List<Entry> result = entryPageDAO.getPage(page);
+        String result = entryPageDAO.getPage(page);
 
         // then
         assertThat(result, notNullValue());
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_3_LINK)), is(true));
+        assertThat(result, equalTo(NON_CATEGORIZED_SECOND_PAGE_CONTENT));
     }
 
     @Test
@@ -87,29 +89,27 @@ public class EntryPageDAOImplIT {
         long categoryID = 1;
 
         // when
-        List<Entry> result = entryPageDAO.getPageOfCategory(page, categoryID);
+        String result = entryPageDAO.getPageOfCategory(page, categoryID);
 
         // then
         assertThat(result, notNullValue());
-        assertThat(result.size(), equalTo(2));
-        assertThat(result.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_1_LINK)), is(true));
-        assertThat(result.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_3_LINK)), is(true));
+        assertThat(result, equalTo(CATEGORIZED_FIRST_PAGE_CONTENT));
     }
 
     @Test
     @Transactional
     @Sql({FailoverPersistenceITConfig.INTEGRATION_TEST_DB_SCRIPT_PAGES, FailoverPersistenceITConfig.INTEGRATION_TEST_DB_SCRIPT_ENTRIES})
-    public void shouldReturnEmptyListForNonExistingPage() {
+    public void shouldReturnEmptyResponseForNonExistingPage() {
 
         // given
-        int page = 4;
+        int page = 5;
 
         // when
-        List<Entry> result = entryPageDAO.getPage(page);
+        String result = entryPageDAO.getPage(page);
 
         // then
         assertThat(result, notNullValue());
-        assertThat(result.isEmpty(), is(true));
+        assertThat(result, equalTo(StringUtils.EMPTY));
     }
 
     @Test
@@ -124,10 +124,8 @@ public class EntryPageDAOImplIT {
         entryPageDAO.storePage(entryPage);
 
         // then
-        List<Entry> storedPage = entryPageDAO.getPage(PAGE_NUMBER);
-        assertThat(storedPage.size(), equalTo(2));
-        assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_2_LINK)), is(true));
-        assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_3_LINK)), is(true));
+        String storedPage = entryPageDAO.getPage(NEW_PAGE_NUMBER);
+        assertThat(storedPage, equalTo(NEW_NON_CATEGORIZED_PAGED_CONTENT));
     }
 
     @Test
@@ -157,10 +155,8 @@ public class EntryPageDAOImplIT {
         entryPageDAO.storePage(entryPage);
 
         // then
-        List<Entry> storedPage = entryPageDAO.getPageOfCategory(PAGE_NUMBER, CATEGORY_ID);
-        assertThat(storedPage.size(), equalTo(2));
-        assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_2_LINK)), is(true));
-        assertThat(storedPage.stream().anyMatch(entry -> entry.getLink().equals(ENTRY_3_LINK)), is(true));
+        String storedPage = entryPageDAO.getPageOfCategory(NEW_PAGE_NUMBER, CATEGORY_ID);
+        assertThat(storedPage, equalTo(NEW_CATEGORIZED_PAGED_CONTENT));
     }
 
     @Test
@@ -177,18 +173,14 @@ public class EntryPageDAOImplIT {
 
     private EntryPage prepareEntryPage(boolean categorized) {
         return EntryPage.getBuilder()
-                .withPage(PAGE_NUMBER)
+                .withPage(NEW_PAGE_NUMBER)
                 .withCategoryID(categorized
                         ? CATEGORY_ID
                         : null)
-                .withEntries(Arrays.asList(prepareEntry(ENTRY_2_LINK), prepareEntry(ENTRY_3_LINK)))
-                .build();
-    }
-
-    private Entry prepareEntry(String link) {
-        return Entry.getBuilder()
-                .withLink(link)
-                .withContent(link + "-content")
+                .withEntries(Arrays.asList(ENTRY_2_LINK, ENTRY_3_LINK))
+                .withContent(categorized
+                        ? NEW_CATEGORIZED_PAGED_CONTENT
+                        : NEW_NON_CATEGORIZED_PAGED_CONTENT)
                 .build();
     }
 }

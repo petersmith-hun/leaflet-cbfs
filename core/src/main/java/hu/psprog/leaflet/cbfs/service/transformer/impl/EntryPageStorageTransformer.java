@@ -1,8 +1,8 @@
 package hu.psprog.leaflet.cbfs.service.transformer.impl;
 
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
+import hu.psprog.leaflet.api.rest.response.entry.EntryDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.EntryListDataModel;
-import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.domain.EntryPage;
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
 import hu.psprog.leaflet.cbfs.service.transformer.StorageTransformer;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author Peter Smith
  */
 @Component
-public class EntryPageStorageTransformer implements StorageTransformer<EntryPageKey, WrapperBodyDataModel<EntryListDataModel>, EntryPage> {
+public class EntryPageStorageTransformer extends AbstractStorageTransformer<EntryPageKey, WrapperBodyDataModel<EntryListDataModel>, EntryPage> {
 
     @Override
     public EntryPage transform(EntryPageKey key, WrapperBodyDataModel<EntryListDataModel> source) {
@@ -26,14 +26,13 @@ public class EntryPageStorageTransformer implements StorageTransformer<EntryPage
                 .withPage(key.getPage())
                 .withCategoryID(key.getCategoryID())
                 .withEntries(buildEntryList(source))
+                .withContent(convertToJSON(source))
                 .build();
     }
 
-    private List<Entry> buildEntryList(WrapperBodyDataModel<EntryListDataModel> sourceList) {
+    private List<String> buildEntryList(WrapperBodyDataModel<EntryListDataModel> sourceList) {
         return sourceList.getBody().getEntries().stream()
-                .map(entryDataModel -> Entry.getBuilder()
-                        .withLink(entryDataModel.getLink())
-                        .build())
+                .map(EntryDataModel::getLink)
                 .collect(Collectors.toList());
     }
 }

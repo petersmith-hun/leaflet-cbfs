@@ -11,12 +11,12 @@
 
                 <!-- entry page queries -->
                 <prop key="getPage">
-                    SELECT link_list
+                    SELECT content
                     FROM cbfs_entry_page
                     WHERE page_number = :page_number AND category_id IS NULL;
                 </prop>
                 <prop key="getPageOfCategory">
-                    SELECT link_list
+                    SELECT content
                     FROM cbfs_entry_page
                     WHERE page_number = :page_number AND category_id = :category_id;
                 </prop>
@@ -26,9 +26,9 @@
                 </prop>
                 <prop key="storePage">
                     INSERT INTO cbfs_entry_page
-                        (page_number, category_id, link_list)
+                        (page_number, category_id, link_list, content)
                     VALUES
-                        (:page_number, :category_id, :link_list);
+                        (:page_number, :category_id, :link_list, :content);
                 </prop>
                 <prop key="truncatePages">
                     TRUNCATE TABLE cbfs_entry_page;

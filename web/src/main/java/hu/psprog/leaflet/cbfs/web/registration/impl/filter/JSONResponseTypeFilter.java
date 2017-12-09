@@ -2,6 +2,7 @@ package hu.psprog.leaflet.cbfs.web.registration.impl.filter;
 
 import hu.psprog.leaflet.cbfs.web.registration.SparkRegistration;
 import org.springframework.stereotype.Component;
+import spark.Filter;
 import spark.Spark;
 
 /**
@@ -16,6 +17,10 @@ public class JSONResponseTypeFilter implements SparkRegistration {
 
     @Override
     public void register() {
-        Spark.after((request, response) -> response.type(CONTENT_TYPE_APPLICATION_JSON));
+        Spark.after(jsonContentTypeFilter());
+    }
+
+    private Filter jsonContentTypeFilter() {
+        return (request, response) -> response.type(CONTENT_TYPE_APPLICATION_JSON);
     }
 }

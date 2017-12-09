@@ -1,9 +1,7 @@
 package hu.psprog.leaflet.cbfs.persistence;
 
-import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.domain.EntryPage;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,21 +12,21 @@ import java.util.Set;
 public interface EntryPageDAO extends TruncateCapableDAO {
 
     /**
-     * Retrieves {@link List} of {@link Entry} objects for given page number.
+     * Retrieves snapshot content as String for given page number.
      *
      * @param page page number
-     * @return List of Entry objects
+     * @return snapshot content
      */
-    List<Entry> getPage(int page);
+    String getPage(int page);
 
     /**
-     * Retrieves {@link List} of {@link Entry} objects for given page number and category ID.
+     * Retrieves snapshot content as String for given page number and category ID.
      *
      * @param page page number
      * @param categoryID category ID
-     * @return List of Entry objects
+     * @return snapshot content
      */
-    List<Entry> getPageOfCategory(int page, long categoryID);
+    String getPageOfCategory(int page, long categoryID);
 
     /**
      * Retrieves all entry links that are stored under the pages.

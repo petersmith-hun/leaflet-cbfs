@@ -1,7 +1,8 @@
 create table cbfs_entry_page (
   page_number int(11) not null,
   category_id int(11) default null,
-  link_list text
+  link_list text,
+  content text
 );
 
 create table cbfs_entry (
