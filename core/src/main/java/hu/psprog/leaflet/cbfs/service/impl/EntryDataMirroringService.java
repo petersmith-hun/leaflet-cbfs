@@ -2,8 +2,10 @@ package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.ExtendedEntryDataModel;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.EntryDataAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +26,13 @@ public class EntryDataMirroringService implements DataMirroringService {
 
     private EntryDataAdapter entryDataAdapter;
     private EntryPageDAO entryPageDAO;
+    private FailoverStatusService failoverStatusService;
 
     @Autowired
-    public EntryDataMirroringService(EntryDataAdapter entryDataAdapter, EntryPageDAO entryPageDAO) {
+    public EntryDataMirroringService(EntryDataAdapter entryDataAdapter, EntryPageDAO entryPageDAO, FailoverStatusService failoverStatusService) {
         this.entryDataAdapter = entryDataAdapter;
         this.entryPageDAO = entryPageDAO;
+        this.failoverStatusService = failoverStatusService;
     }
 
     @Override
@@ -45,6 +49,7 @@ public class EntryDataMirroringService implements DataMirroringService {
                 LOGGER.info("Collected entry data for [{}]", link);
             } catch (Exception e) {
                 LOGGER.error("Failed to retrieve entry data for link [{}].", link, e);
+                failoverStatusService.markMirroringFailure(MirrorType.ENTRY);
             }
         });
     }

@@ -6,8 +6,10 @@ import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
 import hu.psprog.leaflet.cbfs.config.MirroringConfiguration;
 import hu.psprog.leaflet.cbfs.domain.Category;
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.persistence.CategoryDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.DataAdapter;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategorizedEntryPageDataAdapter;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.NonCategorizedEntryPageDataAdapter;
@@ -35,17 +37,19 @@ public class EntryPageDataMirroringService implements DataMirroringService {
     private NonCategorizedEntryPageDataAdapter nonCategorizedEntryPageDataAdapter;
     private CategorizedEntryPageDataAdapter categorizedEntryPageDataAdapter;
     private CategoryDAO categoryDAO;
+    private FailoverStatusService failoverStatusService;
 
     @Value("${mirroring.pages.max}")
     private int maxPages;
 
     @Autowired
     public EntryPageDataMirroringService(MirroringConfiguration mirroringConfiguration, NonCategorizedEntryPageDataAdapter nonCategorizedEntryPageDataAdapter,
-                                         CategorizedEntryPageDataAdapter categorizedEntryPageDataAdapter, CategoryDAO categoryDAO) {
+                                         CategorizedEntryPageDataAdapter categorizedEntryPageDataAdapter, CategoryDAO categoryDAO, FailoverStatusService failoverStatusService) {
         this.mirroringConfiguration = mirroringConfiguration;
         this.nonCategorizedEntryPageDataAdapter = nonCategorizedEntryPageDataAdapter;
         this.categorizedEntryPageDataAdapter = categorizedEntryPageDataAdapter;
         this.categoryDAO = categoryDAO;
+        this.failoverStatusService = failoverStatusService;
     }
 
     @Override
@@ -60,6 +64,7 @@ public class EntryPageDataMirroringService implements DataMirroringService {
             LOGGER.info("Collecting categorized pages done.");
         } catch (Exception e) {
             LOGGER.error("Failed to load paged data.", e);
+            failoverStatusService.markMirroringFailure(MirrorType.ENTRY_PAGE);
         }
     }
 

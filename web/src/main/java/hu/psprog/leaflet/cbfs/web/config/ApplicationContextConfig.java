@@ -1,6 +1,7 @@
 package hu.psprog.leaflet.cbfs.web.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import hu.psprog.leaflet.cbfs.config.DataSourceConfig;
 import hu.psprog.leaflet.cbfs.config.FailoverBridgeConfiguration;
 import hu.psprog.leaflet.cbfs.config.ServiceConfiguration;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.TimeZone;
 
 /**
  * Application context base configuration.
@@ -30,7 +33,12 @@ public class ApplicationContextConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.setTimeZone(TimeZone.getDefault());
+
+        return mapper;
     }
 
     @Bean

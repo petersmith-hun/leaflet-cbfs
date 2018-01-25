@@ -4,7 +4,9 @@ import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.document.DocumentDataModel;
 import hu.psprog.leaflet.api.rest.response.document.EditDocumentDataModel;
 import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.DocumentDataAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +27,14 @@ public class DocumentDataMirroringService implements DataMirroringService {
 
     private DocumentDataAdapter documentDataAdapter;
     private DocumentBridgeService documentBridgeService;
+    private FailoverStatusService failoverStatusService;
 
     @Autowired
-    public DocumentDataMirroringService(DocumentDataAdapter documentDataAdapter, DocumentBridgeService documentBridgeService) {
+    public DocumentDataMirroringService(DocumentDataAdapter documentDataAdapter, DocumentBridgeService documentBridgeService,
+                                        FailoverStatusService failoverStatusService) {
         this.documentDataAdapter = documentDataAdapter;
         this.documentBridgeService = documentBridgeService;
+        this.failoverStatusService = failoverStatusService;
     }
 
     @Override
@@ -49,6 +54,7 @@ public class DocumentDataMirroringService implements DataMirroringService {
             });
         } catch (Exception e) {
             LOGGER.error("Failed to retrieve document list.", e);
+            failoverStatusService.markMirroringFailure(MirrorType.DOCUMENT);
         }
     }
 

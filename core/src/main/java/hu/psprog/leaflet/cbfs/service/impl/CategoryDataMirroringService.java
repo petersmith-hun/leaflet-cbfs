@@ -2,7 +2,9 @@ package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategoryDataAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +22,12 @@ public class CategoryDataMirroringService implements DataMirroringService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryDataMirroringService.class);
 
     private CategoryDataAdapter categoryDataAdapter;
+    private FailoverStatusService failoverStatusService;
 
     @Autowired
-    public CategoryDataMirroringService(CategoryDataAdapter categoryDataAdapter) {
+    public CategoryDataMirroringService(CategoryDataAdapter categoryDataAdapter, FailoverStatusService failoverStatusService) {
         this.categoryDataAdapter = categoryDataAdapter;
+        this.failoverStatusService = failoverStatusService;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class CategoryDataMirroringService implements DataMirroringService {
             LOGGER.info("Collecting categories done.");
         } catch (Exception e) {
             LOGGER.error("Failed to collect category data.", e);
+            failoverStatusService.markMirroringFailure(MirrorType.CATEGORY);
         }
     }
 

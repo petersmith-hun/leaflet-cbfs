@@ -58,6 +58,15 @@ class QueryRegistry {
     @Value("${truncateCategories}")
     private String truncateCategoriesQuery;
 
+    @Value("${insertStatus}")
+    private String insertStatus;
+
+    @Value("${getStatusEntries}")
+    private String statusEntries;
+
+    @Value("${getMirrorStatus}")
+    private String mirrorStatus;
+
     String getPageQuery() {
         return pageQuery;
     }
@@ -112,5 +121,17 @@ class QueryRegistry {
 
     String getTruncateCategoriesQuery() {
         return truncateCategoriesQuery;
+    }
+
+    String getInsertStatus() {
+        return insertStatus;
+    }
+
+    String getStatusEntries() {
+        return statusEntries;
+    }
+
+    String getMirrorStatus() {
+        return mirrorStatus;
     }
 }
