@@ -6,6 +6,8 @@ import hu.psprog.leaflet.api.rest.response.document.DocumentListDataModel;
 import hu.psprog.leaflet.api.rest.response.document.EditDocumentDataModel;
 import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
 import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.DocumentDataAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +40,9 @@ public class DocumentDataMirroringServiceTest {
 
     @Mock
     private DocumentBridgeService documentBridgeService;
+
+    @Mock
+    private FailoverStatusService failoverStatusService;
 
     @InjectMocks
     private DocumentDataMirroringService documentDataMirroringService;
@@ -72,6 +77,7 @@ public class DocumentDataMirroringServiceTest {
 
         // then
         // silent fail
+        verify(failoverStatusService).markMirroringFailure(MirrorType.DOCUMENT);
     }
 
     @Test
@@ -87,6 +93,7 @@ public class DocumentDataMirroringServiceTest {
 
         // then
         // silent fail
+        verify(failoverStatusService, times(3)).markMirroringFailure(MirrorType.DOCUMENT);
     }
 
     private DocumentListDataModel prepareDocumentList() {

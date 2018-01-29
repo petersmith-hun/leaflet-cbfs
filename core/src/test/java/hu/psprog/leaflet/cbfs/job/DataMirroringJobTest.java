@@ -2,9 +2,11 @@ package hu.psprog.leaflet.cbfs.job;
 
 import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +37,15 @@ public class DataMirroringJobTest {
     private DataMirroringJob dataMirroringJob;
     private List<String> callLogger = new ArrayList<>();
 
+    @Mock
+    private FailoverStatusService failoverStatusService;
+
     @Before
     public void setup() {
         dataMirroringJob = new DataMirroringJob(
                 Arrays.asList(new MirrorMock(2, MIRROR_2), new MirrorMock(1, MIRROR_1), new MirrorMock(3, MIRROR_3)),
-                Arrays.asList(new TruncateMock(TRUNCATE_1), new TruncateMock(TRUNCATE_2)));
+                Arrays.asList(new TruncateMock(TRUNCATE_1), new TruncateMock(TRUNCATE_2)),
+                failoverStatusService);
     }
 
     @Test

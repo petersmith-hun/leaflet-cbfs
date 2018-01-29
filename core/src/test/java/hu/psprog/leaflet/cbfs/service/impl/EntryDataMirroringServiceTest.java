@@ -3,7 +3,9 @@ package hu.psprog.leaflet.cbfs.service.impl;
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.ExtendedEntryDataModel;
 import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.EntryDataAdapter;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import java.util.Set;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -38,6 +41,9 @@ public class EntryDataMirroringServiceTest {
 
     @Mock
     private EntryPageDAO entryPageDAO;
+
+    @Mock
+    private FailoverStatusService failoverStatusService;
 
     @InjectMocks
     private EntryDataMirroringService entryDataMirroringService;
@@ -74,6 +80,7 @@ public class EntryDataMirroringServiceTest {
 
         // then
         // silent fail
+        verify(failoverStatusService, times(3)).markMirroringFailure(MirrorType.ENTRY);
     }
 
     private Set<String> prepareLinkSet() {

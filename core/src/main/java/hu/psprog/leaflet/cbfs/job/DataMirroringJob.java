@@ -2,6 +2,7 @@ package hu.psprog.leaflet.cbfs.job;
 
 import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,22 @@ public class DataMirroringJob {
 
     private List<DataMirroringService> dataMirroringServiceList;
     private List<TruncateCapableDAO> truncateCapableDAOList;
+    private FailoverStatusService failoverStatusService;
 
     @Autowired
-    public DataMirroringJob(List<DataMirroringService> dataMirroringServiceList, List<TruncateCapableDAO> truncateCapableDAOList) {
+    public DataMirroringJob(List<DataMirroringService> dataMirroringServiceList, List<TruncateCapableDAO> truncateCapableDAOList,
+                            FailoverStatusService failoverStatusService) {
         this.dataMirroringServiceList = dataMirroringServiceList;
         this.truncateCapableDAOList = truncateCapableDAOList;
+        this.failoverStatusService = failoverStatusService;
     }
 
     @Scheduled(cron = "${mirroring.schedule}")
     public void startMirroring() {
+        failoverStatusService.markMirroringStart();
         cleanUpStep();
         mirroringStep();
+        failoverStatusService.markMirroringFinish();
     }
 
     private void cleanUpStep() {

@@ -80,6 +80,26 @@
                 <prop key="truncateCategories">
                     TRUNCATE TABLE cbfs_category;
                 </prop>
+
+                <!-- status entries -->
+                <prop key="insertStatus">
+                    INSERT INTO cbfs_status_tracking
+                        (created_at, status, parameter)
+                    VALUES
+                        (current_timestamp(), :status, :parameter);
+                </prop>
+                <prop key="getStatusEntries">
+                    SELECT *
+                    FROM cbfs_status_tracking
+                    ORDER BY created_at ASC;
+                </prop>
+                <prop key="getMirrorStatus">
+                    SELECT
+                        (SELECT COUNT(*) FROM cbfs_category) as cnt_category,
+                        (SELECT COUNT(*) FROM cbfs_entry_page) as cnt_entry_page,
+                        (SELECT COUNT(*) FROM cbfs_entry) as cnt_entry,
+                        (SELECT COUNT(*) FROM cbfs_document) as cnt_document;
+                </prop>
             </props>
         </property>
     </bean>
