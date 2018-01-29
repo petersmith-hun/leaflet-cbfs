@@ -21,4 +21,5 @@ public class FailoverPersistenceITConfig {
     public static final String INTEGRATION_TEST_DB_SCRIPT_DOCUMENTS = "classpath:persistence_it_db_script_documents.sql";
     public static final String INTEGRATION_TEST_DB_SCRIPT_ENTRIES = "classpath:persistence_it_db_script_entries.sql";
     public static final String INTEGRATION_TEST_DB_SCRIPT_PAGES = "classpath:persistence_it_db_script_pages.sql";
+    public static final String INTEGRATION_TEST_DB_SCRIPT_STATUS = "classpath:persistence_it_db_script_status.sql";
 }

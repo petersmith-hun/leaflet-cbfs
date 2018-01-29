@@ -50,6 +50,7 @@ public class DocumentDataMirroringService implements DataMirroringService {
                     documentDataAdapter.store(document.getLink(), result);
                 } catch (Exception e) {
                     LOGGER.error("Failed to retrieve document data for [{}].", document.getLink(), e);
+                    failoverStatusService.markMirroringFailure(MirrorType.DOCUMENT);
                 }
             });
         } catch (Exception e) {

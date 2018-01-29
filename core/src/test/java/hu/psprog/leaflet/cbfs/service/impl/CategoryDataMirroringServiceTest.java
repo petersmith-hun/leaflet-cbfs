@@ -3,6 +3,8 @@ package hu.psprog.leaflet.cbfs.service.impl;
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategoryDataAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +30,9 @@ public class CategoryDataMirroringServiceTest {
 
     @Mock
     private CategoryDataAdapter categoryDataAdapter;
+
+    @Mock
+    private FailoverStatusService failoverStatusService;
 
     @InjectMocks
     private CategoryDataMirroringService categoryDataMirroringService;
@@ -58,5 +63,6 @@ public class CategoryDataMirroringServiceTest {
 
         // then
         // silent fail
+        verify(failoverStatusService).markMirroringFailure(MirrorType.CATEGORY);
     }
 }

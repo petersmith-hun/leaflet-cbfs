@@ -8,7 +8,9 @@ import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
 import hu.psprog.leaflet.cbfs.config.MirroringConfiguration;
 import hu.psprog.leaflet.cbfs.domain.Category;
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.persistence.CategoryDAO;
+import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategorizedEntryPageDataAdapter;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.NonCategorizedEntryPageDataAdapter;
 import org.junit.Before;
@@ -51,6 +53,9 @@ public class EntryPageDataMirroringServiceTest {
 
     @Mock
     private CategoryDAO categoryDAO;
+
+    @Mock
+    private FailoverStatusService failoverStatusService;
 
     @InjectMocks
     private EntryPageDataMirroringService entryPageDataMirroringService;
@@ -136,6 +141,7 @@ public class EntryPageDataMirroringServiceTest {
 
         // then
         // silent fail
+        verify(failoverStatusService).markMirroringFailure(MirrorType.ENTRY_PAGE);
     }
 
     private WrapperBodyDataModel<EntryListDataModel> prepareWrapper(boolean hasNext) {
