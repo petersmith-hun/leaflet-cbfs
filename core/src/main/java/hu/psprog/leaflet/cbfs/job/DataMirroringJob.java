@@ -1,5 +1,7 @@
 package hu.psprog.leaflet.cbfs.job;
 
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
+import hu.psprog.leaflet.cbfs.job.availability.BackendAvailabilityChecker;
 import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
@@ -25,20 +27,27 @@ public class DataMirroringJob {
     private List<DataMirroringService> dataMirroringServiceList;
     private List<TruncateCapableDAO> truncateCapableDAOList;
     private FailoverStatusService failoverStatusService;
+    private BackendAvailabilityChecker backendAvailabilityChecker;
 
     @Autowired
     public DataMirroringJob(List<DataMirroringService> dataMirroringServiceList, List<TruncateCapableDAO> truncateCapableDAOList,
-                            FailoverStatusService failoverStatusService) {
+                            FailoverStatusService failoverStatusService, BackendAvailabilityChecker backendAvailabilityChecker) {
         this.dataMirroringServiceList = dataMirroringServiceList;
         this.truncateCapableDAOList = truncateCapableDAOList;
         this.failoverStatusService = failoverStatusService;
+        this.backendAvailabilityChecker = backendAvailabilityChecker;
     }
 
     @Scheduled(cron = "${mirroring.schedule}")
     public void startMirroring() {
         failoverStatusService.markMirroringStart();
-        cleanUpStep();
-        mirroringStep();
+        if (backendAvailabilityChecker.isAvailable()) {
+            cleanUpStep();
+            mirroringStep();
+        } else {
+            failoverStatusService.markMirroringFailure(MirrorType.ALL);
+            LOGGER.error("Backend unavailable - mirroring stopped, keeping current mirror.");
+        }
         failoverStatusService.markMirroringFinish();
     }
 

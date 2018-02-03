@@ -1,7 +1,6 @@
 package hu.psprog.leaflet.cbfs.service.impl;
 
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.annotation.Counted;
 import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
 import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.domain.StatusEntry;
@@ -35,24 +34,19 @@ public class FailoverStatusServiceImpl implements FailoverStatusService {
     private static final ScheduledExecutorService STATUS_RESET_SCHEDULER = Executors.newSingleThreadScheduledExecutor();
     private static final Comparator<StatusEntry> STATUS_ENTRY_COMPARATOR_BY_CREATION_DATE = Comparator.comparing(StatusEntry::getCreated);
 
-    private static final String METRIC_NAME_HIT_REPORT = "snapshot.retrieval.hit.report";
-    private static final String METRIC_NAME_HIT_COUNTER = "snapshot.retrieval.call";
-
     private FailoverStatus failoverStatus = FailoverStatus.STANDBY;
     private ScheduledFuture<?> scheduler;
     private int statusResetDelay;
     private TimeUnit delayTimeUnit;
     private StatusTrackingDAO statusTrackingDAO;
-    private MetricRegistry metricRegistry;
 
     @Autowired
     public FailoverStatusServiceImpl(@Value("${failover-status.reset-delay.interval}") int statusResetDelay,
                                      @Value("${failover-status.reset-delay.unit}") TimeUnit delayTimeUnit,
-                                     StatusTrackingDAO statusTrackingDAO, MetricRegistry metricRegistry) {
+                                     StatusTrackingDAO statusTrackingDAO) {
         this.statusResetDelay = statusResetDelay;
         this.delayTimeUnit = delayTimeUnit;
         this.statusTrackingDAO = statusTrackingDAO;
-        this.metricRegistry = metricRegistry;
     }
 
     @Override
@@ -66,9 +60,9 @@ public class FailoverStatusServiceImpl implements FailoverStatusService {
     }
 
     @Override
+    @Counted(name = "snapshot.retrieval.call", absolute = true, monotonic = true)
     public void trafficReceived() {
 
-        metricRegistry.counter(METRIC_NAME_HIT_COUNTER).inc();
         if (isServing()) {
             if (Objects.nonNull(scheduler)) {
                 scheduler.cancel(true);
@@ -76,7 +70,6 @@ public class FailoverStatusServiceImpl implements FailoverStatusService {
             scheduler = setStatusResetScheduler();
         } else if (!isMirroring()){
             changeStatus(FailoverStatus.SERVING);
-            metricRegistry.gauge(METRIC_NAME_HIT_REPORT, buildGauge());
             scheduler = setStatusResetScheduler();
         }
     }
@@ -132,13 +125,6 @@ public class FailoverStatusServiceImpl implements FailoverStatusService {
     }
 
     private ScheduledFuture<?> setStatusResetScheduler() {
-        return STATUS_RESET_SCHEDULER.schedule(() -> {
-            metricRegistry.gauge(METRIC_NAME_HIT_REPORT, buildGauge());
-            changeStatus(FailoverStatus.STANDBY);
-        }, statusResetDelay, delayTimeUnit);
-    }
-
-    private MetricRegistry.MetricSupplier<Gauge> buildGauge() {
-        return () -> () -> isServing() ? 1 : 0;
+        return STATUS_RESET_SCHEDULER.schedule(() -> changeStatus(FailoverStatus.STANDBY), statusResetDelay, delayTimeUnit);
     }
 }

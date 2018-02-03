@@ -1,5 +1,7 @@
 package hu.psprog.leaflet.cbfs.job;
 
+import hu.psprog.leaflet.cbfs.domain.MirrorType;
+import hu.psprog.leaflet.cbfs.job.availability.BackendAvailabilityChecker;
 import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
@@ -17,6 +19,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link DataMirroringJob}.
@@ -40,16 +44,22 @@ public class DataMirroringJobTest {
     @Mock
     private FailoverStatusService failoverStatusService;
 
+    @Mock
+    private BackendAvailabilityChecker backendAvailabilityChecker;
+
     @Before
     public void setup() {
         dataMirroringJob = new DataMirroringJob(
                 Arrays.asList(new MirrorMock(2, MIRROR_2), new MirrorMock(1, MIRROR_1), new MirrorMock(3, MIRROR_3)),
                 Arrays.asList(new TruncateMock(TRUNCATE_1), new TruncateMock(TRUNCATE_2)),
-                failoverStatusService);
+                failoverStatusService, backendAvailabilityChecker);
     }
 
     @Test
     public void shouldStartMirroring() {
+
+        // given
+        given(backendAvailabilityChecker.isAvailable()).willReturn(true);
 
         // when
         dataMirroringJob.startMirroring();
@@ -61,6 +71,24 @@ public class DataMirroringJobTest {
         assertThat(callLogger.get(2), equalTo(MIRROR_1));
         assertThat(callLogger.get(3), equalTo(MIRROR_2));
         assertThat(callLogger.get(4), equalTo(MIRROR_3));
+        verify(failoverStatusService).markMirroringStart();
+        verify(failoverStatusService).markMirroringFinish();
+    }
+
+    @Test
+    public void shouldNotStartMirroringWhenBackendIsUnavailable() {
+
+        // given
+        given(backendAvailabilityChecker.isAvailable()).willReturn(false);
+
+        // when
+        dataMirroringJob.startMirroring();
+
+        // then
+        assertThat(callLogger.size(), equalTo(0));
+        verify(failoverStatusService).markMirroringStart();
+        verify(failoverStatusService).markMirroringFinish();
+        verify(failoverStatusService).markMirroringFailure(MirrorType.ALL);
     }
 
     private class MirrorMock implements DataMirroringService {
