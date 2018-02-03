@@ -6,7 +6,10 @@ import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
 import hu.psprog.leaflet.bridge.service.EntryBridgeService;
 import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
 import hu.psprog.leaflet.cbfs.service.adapter.DataAdapter;
+import hu.psprog.leaflet.cbfs.service.impl.CreationDateLimitValidator;
 import hu.psprog.leaflet.cbfs.service.transformer.impl.EntryStorageTransformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +23,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class EntryDataAdapter implements DataAdapter<String, WrapperBodyDataModel<ExtendedEntryDataModel>> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntryDataAdapter.class);
+
     private EntryBridgeService entryBridgeService;
     private EntryStorageTransformer transformer;
     private EntryDAO entryDAO;
+    private CreationDateLimitValidator creationDateLimitValidator;
 
     @Autowired
-    public EntryDataAdapter(EntryBridgeService entryBridgeService, EntryStorageTransformer transformer, EntryDAO entryDAO) {
+    public EntryDataAdapter(EntryBridgeService entryBridgeService, EntryStorageTransformer transformer,
+                            EntryDAO entryDAO, CreationDateLimitValidator creationDateLimitValidator) {
         this.entryBridgeService = entryBridgeService;
         this.transformer = transformer;
         this.entryDAO = entryDAO;
+        this.creationDateLimitValidator = creationDateLimitValidator;
     }
 
     @Override
@@ -38,6 +46,10 @@ public class EntryDataAdapter implements DataAdapter<String, WrapperBodyDataMode
 
     @Override
     public void store(String key, WrapperBodyDataModel<ExtendedEntryDataModel> data) {
-        entryDAO.storeEntry(transformer.transform(key, data));
+        if (creationDateLimitValidator.isValid(data)) {
+            entryDAO.storeEntry(transformer.transform(key, data));
+        } else {
+            LOGGER.warn("Entry [{}] dropped by creation date limit ({})", data.getBody().getLink(), creationDateLimitValidator.getCreationDateLimit());
+        }
     }
 }
