@@ -1,7 +1,5 @@
 package hu.psprog.leaflet.cbfs.service.impl;
 
-import com.codahale.metrics.Counter;
-import com.codahale.metrics.MetricRegistry;
 import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
 import hu.psprog.leaflet.cbfs.domain.MirrorStatus;
 import hu.psprog.leaflet.cbfs.domain.MirrorType;
@@ -29,10 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -43,24 +38,14 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class FailoverStatusServiceImplTest {
 
-    private static final String METRIC_NAME_HIT_REPORT = "snapshot.retrieval.hit.report";
-    private static final String METRIC_NAME_HIT_COUNTER = "snapshot.retrieval.call";
-
     @Mock
     private StatusTrackingDAO statusTrackingDAO;
-
-    @Mock
-    private MetricRegistry metricRegistry;
-
-    @Mock
-    private Counter counter;
 
     private FailoverStatusService failoverStatusService;
 
     @Before
     public void setup() {
-        failoverStatusService = new FailoverStatusServiceImpl(3, TimeUnit.SECONDS, statusTrackingDAO, metricRegistry);
-        given(metricRegistry.counter(METRIC_NAME_HIT_COUNTER)).willReturn(counter);
+        failoverStatusService = new FailoverStatusServiceImpl(3, TimeUnit.SECONDS, statusTrackingDAO);
     }
 
     @Test
@@ -126,8 +111,6 @@ public class FailoverStatusServiceImplTest {
         Thread.sleep(3100);
         assertThat(failoverStatusService.isServing(), is(false));
         verify(statusTrackingDAO).insertStatus(FailoverStatus.SERVING);
-        verify(counter).inc();
-        verify(metricRegistry, times(2)).gauge(eq(METRIC_NAME_HIT_REPORT), any());
     }
 
     @Test
@@ -144,7 +127,6 @@ public class FailoverStatusServiceImplTest {
         Thread.sleep(3100);
         assertThat(failoverStatusService.isServing(), is(false));
         verify(statusTrackingDAO, never()).insertStatus(FailoverStatus.SERVING);
-        verify(counter).inc();
     }
 
     @Test
@@ -162,7 +144,6 @@ public class FailoverStatusServiceImplTest {
         Thread.sleep(1100);
         assertThat(failoverStatusService.isServing(), is(false));
         verify(statusTrackingDAO).insertStatus(FailoverStatus.SERVING);
-        verify(counter, times(2)).inc();
     }
 
     @Test
@@ -176,7 +157,6 @@ public class FailoverStatusServiceImplTest {
 
         // then
         assertThat(failoverStatusService.isMirroring(), is(true));
-        verify(counter).inc();
     }
 
     @Test
