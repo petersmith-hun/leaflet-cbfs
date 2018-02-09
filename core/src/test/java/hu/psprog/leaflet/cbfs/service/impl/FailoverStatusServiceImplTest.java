@@ -209,8 +209,8 @@ public class FailoverStatusServiceImplTest {
 
         // then
         assertThat(result.getStatusEntryList(), equalTo(statusEntryList));
-        assertThat(result.getLastCall(), equalTo(prepareDate(0)));
-        assertThat(result.getLastMirroring(), equalTo(prepareDate(-5)));
+        assertThat(result.getLastCall(), equalTo(prepareDate(-1)));
+        assertThat(result.getLastMirroring(), equalTo(prepareDate(-2)));
         assertThat(result.getStatus(), equalTo(FailoverStatus.STANDBY));
         assertThat(result.getMirrorStatus(), equalTo(mirrorStatusList));
     }
@@ -219,7 +219,7 @@ public class FailoverStatusServiceImplTest {
         return Arrays.asList(
                 prepareStatusEntry(false, -3),
                 prepareStatusEntry(false, -1),
-                prepareStatusEntry(false, 0),
+                prepareStatusEntry(true, -2),
                 prepareStatusEntry(true, -5),
                 prepareStatusEntry(false, -4),
                 prepareStatusEntry(true, -7));

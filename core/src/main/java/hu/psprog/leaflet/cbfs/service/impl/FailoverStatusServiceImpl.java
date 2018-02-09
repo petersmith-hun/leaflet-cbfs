@@ -105,6 +105,7 @@ public class FailoverStatusServiceImpl implements FailoverStatusService {
 
     private Date extractLastCallDate(List<StatusEntry> statusEntryList) {
         return statusEntryList.stream()
+                .filter(statusEntry -> FailoverStatus.SERVING == statusEntry.getStatus())
                 .max(STATUS_ENTRY_COMPARATOR_BY_CREATION_DATE)
                 .map(StatusEntry::getCreated)
                 .orElse(null);
