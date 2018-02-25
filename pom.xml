@@ -7,7 +7,7 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1-dev</version>
+    <version>1.0.2-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
@@ -22,6 +22,7 @@
 
         <!-- leaflet internal dependency versions -->
         <leaflet-bridge.version>1.7.1</leaflet-bridge.version>
+        <leaflet.tlp-appender.version>1.0.0</leaflet.tlp-appender.version>
 
         <!-- dependency versions -->
         <spark-java.version>2.7.1</spark-java.version>
@@ -199,6 +200,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>hu.psprog.leaflet</groupId>
+            <artifactId>tlp-appender</artifactId>
+            <version>${leaflet.tlp-appender.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
