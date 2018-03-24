@@ -2,7 +2,6 @@ package hu.psprog.leaflet.cbfs.service.adapter.impl;
 
 import hu.psprog.leaflet.api.rest.response.category.CategoryDataModel;
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
-import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
 import hu.psprog.leaflet.bridge.service.CategoryBridgeService;
 import hu.psprog.leaflet.cbfs.domain.Category;
@@ -30,10 +29,8 @@ public class CategoryDataAdapterTest {
     private static final CategoryDataModel CATEGORY_DATA_MODEL = CategoryDataModel.getBuilder()
             .withID(CATEGORY_ID)
             .build();
-    private static final WrapperBodyDataModel<CategoryListDataModel> RESULT = WrapperBodyDataModel.getBuilder()
-            .withBody(CategoryListDataModel.getBuilder()
-                    .withItem(CATEGORY_DATA_MODEL)
-                    .build())
+    private static final CategoryListDataModel RESULT = CategoryListDataModel.getBuilder()
+            .withItem(CATEGORY_DATA_MODEL)
             .build();
     private static final Category CATEGORY = Category.getBuilder()
             .build();
