@@ -7,7 +7,7 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2-dev</version>
+    <version>1.0.3-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
@@ -21,7 +21,7 @@
         <java.version>1.8</java.version>
 
         <!-- leaflet internal dependency versions -->
-        <leaflet-bridge.version>1.7.1</leaflet-bridge.version>
+        <leaflet-bridge.version>1.8.0</leaflet-bridge.version>
         <leaflet.tlp-appender.version>1.0.0</leaflet.tlp-appender.version>
 
         <!-- dependency versions -->

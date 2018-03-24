@@ -1,7 +1,6 @@
 package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
-import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
@@ -34,7 +33,7 @@ public class CategoryDataMirroringService implements DataMirroringService {
     public void load() {
         try {
             LOGGER.info("Start collecting categories...");
-            WrapperBodyDataModel<CategoryListDataModel> result = categoryDataAdapter.retrieve(null);
+            CategoryListDataModel result = categoryDataAdapter.retrieve(null);
             categoryDataAdapter.store(null, result);
             LOGGER.info("Collecting categories done.");
         } catch (Exception e) {
