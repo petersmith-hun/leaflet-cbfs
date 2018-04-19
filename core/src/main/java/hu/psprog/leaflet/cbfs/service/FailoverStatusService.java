@@ -1,7 +1,7 @@
 package hu.psprog.leaflet.cbfs.service;
 
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
-import hu.psprog.leaflet.cbfs.domain.StatusResponse;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
+import hu.psprog.leaflet.failover.api.domain.StatusResponse;
 
 /**
  * Failover status tracking service.

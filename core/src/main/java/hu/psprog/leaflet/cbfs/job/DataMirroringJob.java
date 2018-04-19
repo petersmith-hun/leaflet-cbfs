@@ -1,10 +1,10 @@
 package hu.psprog.leaflet.cbfs.job;
 
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.job.availability.BackendAvailabilityChecker;
 import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

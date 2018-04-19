@@ -16,6 +16,10 @@
             <groupId>hu.psprog.leaflet</groupId>
             <artifactId>backend-rest-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>hu.psprog.leaflet</groupId>
+            <artifactId>failover-rest-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
