@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cbfs</artifactId>
         <groupId>hu.psprog.leaflet</groupId>
-        <version>1.0.3-dev</version>
+        <version>1.0.4-dev</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>hu.psprog.leaflet</groupId>
-            <artifactId>leaflet-bridge</artifactId>
+            <artifactId>backend-rest-client</artifactId>
         </dependency>
 
         <dependency>
