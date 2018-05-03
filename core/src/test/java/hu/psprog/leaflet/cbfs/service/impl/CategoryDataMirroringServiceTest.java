@@ -2,9 +2,9 @@ package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
 import hu.psprog.leaflet.bridge.client.exception.CommunicationFailureException;
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategoryDataAdapter;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

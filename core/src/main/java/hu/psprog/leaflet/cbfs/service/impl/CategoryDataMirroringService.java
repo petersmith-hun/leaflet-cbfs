@@ -1,10 +1,10 @@
 package hu.psprog.leaflet.cbfs.service.impl;
 
 import hu.psprog.leaflet.api.rest.response.category.CategoryListDataModel;
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategoryDataAdapter;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

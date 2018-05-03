@@ -1,9 +1,9 @@
 package hu.psprog.leaflet.cbfs.web.registration.impl.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hu.psprog.leaflet.cbfs.domain.StatusResponse;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.web.registration.impl.RegistrationTestBase;
+import hu.psprog.leaflet.failover.api.domain.StatusResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

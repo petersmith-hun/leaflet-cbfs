@@ -1,11 +1,11 @@
 package hu.psprog.leaflet.cbfs.persistence.impl;
 
-import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
-import hu.psprog.leaflet.cbfs.domain.MirrorStatus;
-import hu.psprog.leaflet.cbfs.domain.StatusEntry;
 import hu.psprog.leaflet.cbfs.persistence.StatusTrackingDAO;
 import hu.psprog.leaflet.cbfs.persistence.mapper.MirrorStatusMapper;
 import hu.psprog.leaflet.cbfs.persistence.mapper.StatusEntryMapper;
+import hu.psprog.leaflet.failover.api.domain.FailoverStatus;
+import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
+import hu.psprog.leaflet.failover.api.domain.StatusEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;

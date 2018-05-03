@@ -1,12 +1,12 @@
 package hu.psprog.leaflet.cbfs.service.impl;
 
-import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
-import hu.psprog.leaflet.cbfs.domain.MirrorStatus;
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
-import hu.psprog.leaflet.cbfs.domain.StatusEntry;
-import hu.psprog.leaflet.cbfs.domain.StatusResponse;
 import hu.psprog.leaflet.cbfs.persistence.StatusTrackingDAO;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
+import hu.psprog.leaflet.failover.api.domain.FailoverStatus;
+import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
+import hu.psprog.leaflet.failover.api.domain.StatusEntry;
+import hu.psprog.leaflet.failover.api.domain.StatusResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

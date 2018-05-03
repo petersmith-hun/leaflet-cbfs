@@ -1,7 +1,7 @@
 package hu.psprog.leaflet.cbfs.persistence.mapper;
 
-import hu.psprog.leaflet.cbfs.domain.MirrorStatus;
-import hu.psprog.leaflet.cbfs.domain.MirrorType;
+import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
+import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

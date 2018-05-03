@@ -1,7 +1,7 @@
 package hu.psprog.leaflet.cbfs.persistence.mapper;
 
-import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
-import hu.psprog.leaflet.cbfs.domain.StatusEntry;
+import hu.psprog.leaflet.failover.api.domain.FailoverStatus;
+import hu.psprog.leaflet.failover.api.domain.StatusEntry;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

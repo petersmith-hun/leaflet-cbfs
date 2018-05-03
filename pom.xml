@@ -71,6 +71,11 @@
                 <artifactId>backend-rest-client</artifactId>
                 <version>${leaflet-rcp.version}</version>
             </dependency>
+            <dependency>
+                <groupId>hu.psprog.leaflet</groupId>
+                <artifactId>failover-rest-api</artifactId>
+                <version>${leaflet-rcp.version}</version>
+            </dependency>
 
             <!-- frameworks -->
             <dependency>

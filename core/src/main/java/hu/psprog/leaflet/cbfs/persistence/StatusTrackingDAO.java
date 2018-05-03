@@ -1,8 +1,8 @@
 package hu.psprog.leaflet.cbfs.persistence;
 
-import hu.psprog.leaflet.cbfs.domain.FailoverStatus;
-import hu.psprog.leaflet.cbfs.domain.MirrorStatus;
-import hu.psprog.leaflet.cbfs.domain.StatusEntry;
+import hu.psprog.leaflet.failover.api.domain.FailoverStatus;
+import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
+import hu.psprog.leaflet.failover.api.domain.StatusEntry;
 
 import java.util.List;
 
