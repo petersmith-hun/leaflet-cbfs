@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
  * @author Peter Smith
  */
 @Configuration
-@Import(MirroringConfiguration.class)
+@Import({MirroringConfiguration.class, MetricsConfiguration.class})
 @ComponentScan(basePackages = {
         "hu.psprog.leaflet.cbfs.service",
         "hu.psprog.leaflet.cbfs.job"
