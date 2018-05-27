@@ -7,7 +7,7 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.4-dev</version>
+    <version>1.0.5-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
@@ -23,6 +23,7 @@
         <!-- leaflet internal dependency versions -->
         <leaflet-rcp.version>1.0.0</leaflet-rcp.version>
         <leaflet.tlp-appender.version>1.0.0</leaflet.tlp-appender.version>
+        <leaflet.bridge.version>2.1.0</leaflet.bridge.version>
 
         <!-- dependency versions -->
         <spark-java.version>2.7.1</spark-java.version>
@@ -75,6 +76,11 @@
                 <groupId>hu.psprog.leaflet</groupId>
                 <artifactId>failover-rest-api</artifactId>
                 <version>${leaflet-rcp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.psprog.leaflet</groupId>
+                <artifactId>leaflet-bridge</artifactId>
+                <version>${leaflet.bridge.version}</version>
             </dependency>
 
             <!-- frameworks -->
