@@ -8,6 +8,8 @@ import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,7 @@ import java.util.List;
  * @author Peter Smith
  */
 @Component
-public class DataMirroringJob {
+public class DataMirroringJob implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataMirroringJob.class);
 
@@ -49,6 +51,12 @@ public class DataMirroringJob {
             LOGGER.error("Backend unavailable - mirroring stopped, keeping current mirror.");
         }
         failoverStatusService.markMirroringFinish();
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        LOGGER.info("On-startup initial mirroring started...");
+        startMirroring();
     }
 
     private void cleanUpStep() {
