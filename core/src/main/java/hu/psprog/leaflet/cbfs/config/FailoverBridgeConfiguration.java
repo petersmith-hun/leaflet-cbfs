@@ -82,21 +82,6 @@ public class FailoverBridgeConfiguration {
     }
 
     @Bean
-    CallStrategy postCallStrategy() {
-        return new PostCallStrategy();
-    }
-
-    @Bean
-    CallStrategy putCallStrategy() {
-        return new PutCallStrategy();
-    }
-
-    @Bean
-    CallStrategy deleteCallStrategy() {
-        return new DeleteCallStrategy();
-    }
-
-    @Bean
     @Autowired
     InvocationFactory invocationFactory(RequestAuthentication requestAuthentication, List<CallStrategy> callStrategyList, RequestAdapter requestAdapter) {
         return new InvocationFactoryImpl(requestAuthentication, callStrategyList, requestAdapter);
