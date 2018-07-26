@@ -1,16 +1,34 @@
 package hu.psprog.leaflet.cbfs.config;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import hu.psprog.leaflet.bridge.client.BridgeClient;
+import hu.psprog.leaflet.bridge.client.handler.InvocationFactory;
+import hu.psprog.leaflet.bridge.client.handler.ResponseReader;
+import hu.psprog.leaflet.bridge.client.impl.BridgeClientImpl;
+import hu.psprog.leaflet.bridge.client.impl.InvocationFactoryImpl;
+import hu.psprog.leaflet.bridge.client.impl.ResponseReaderImpl;
+import hu.psprog.leaflet.bridge.client.request.RequestAdapter;
+import hu.psprog.leaflet.bridge.client.request.RequestAuthentication;
+import hu.psprog.leaflet.bridge.client.request.strategy.CallStrategy;
+import hu.psprog.leaflet.bridge.client.request.strategy.impl.DeleteCallStrategy;
+import hu.psprog.leaflet.bridge.client.request.strategy.impl.GetCallStrategy;
+import hu.psprog.leaflet.bridge.client.request.strategy.impl.PostCallStrategy;
+import hu.psprog.leaflet.bridge.client.request.strategy.impl.PutCallStrategy;
+import hu.psprog.leaflet.bridge.service.CategoryBridgeService;
+import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
+import hu.psprog.leaflet.bridge.service.EntryBridgeService;
+import hu.psprog.leaflet.bridge.service.impl.CategoryBridgeServiceImpl;
+import hu.psprog.leaflet.bridge.service.impl.DocumentBridgeServiceImpl;
+import hu.psprog.leaflet.bridge.service.impl.EntryBridgeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.FixedValue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import java.util.List;
 
 /**
  * Custom configuration for Bridge.
@@ -18,26 +36,60 @@ import java.util.UUID;
  * @author Peter Smith
  */
 @Configuration
-@ComponentScan(basePackages = "hu.psprog.leaflet.bridge")
-@EnableConfigurationProperties
 public class FailoverBridgeConfiguration {
 
-    @Bean
-    public HttpServletRequest dummyHttpServletRequest(@Value("${cbfs.client-id}") UUID clientID) {
-        return (HttpServletRequest) createFixedValueEnhancer(HttpServletRequest.class, () -> clientID).create();
+    private final String leafletHostURL;
+
+    public FailoverBridgeConfiguration(@Value("${bridge.clients.leaflet.host-url}") String leafletHostURL) {
+        this.leafletHostURL = leafletHostURL;
     }
 
     @Bean
-    public HttpServletResponse dummyHttpServletResponse() {
-        return (HttpServletResponse) createFixedValueEnhancer(HttpServletResponse.class, () -> null).create();
+    @Autowired
+    public EntryBridgeService entryBridgeService(BridgeClient bridgeClient) {
+        return new EntryBridgeServiceImpl(bridgeClient);
     }
 
-    private Enhancer createFixedValueEnhancer(Class<?> forClass, FixedValue callback) {
+    @Bean
+    @Autowired
+    public CategoryBridgeService categoryBridgeService(BridgeClient bridgeClient) {
+        return new CategoryBridgeServiceImpl(bridgeClient);
+    }
 
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(forClass);
-        enhancer.setCallback(callback);
+    @Bean
+    @Autowired
+    public DocumentBridgeService documentBridgeService(BridgeClient bridgeClient) {
+        return new DocumentBridgeServiceImpl(bridgeClient);
+    }
 
-        return enhancer;
+    @Bean
+    @Autowired
+    BridgeClient bridgeClient(WebTarget webTarget, InvocationFactory invocationFactory, ResponseReader responseReader) {
+        return new BridgeClientImpl(webTarget, invocationFactory, responseReader);
+    }
+
+    @Bean
+    WebTarget webTarget() {
+        return ClientBuilder.newBuilder()
+                .register(JacksonJsonProvider.class)
+                .build()
+                .target(leafletHostURL);
+    }
+
+    @Bean
+    CallStrategy getCallStrategy() {
+        return new GetCallStrategy();
+    }
+
+    @Bean
+    @Autowired
+    InvocationFactory invocationFactory(RequestAuthentication requestAuthentication, List<CallStrategy> callStrategyList, RequestAdapter requestAdapter) {
+        return new InvocationFactoryImpl(requestAuthentication, callStrategyList, requestAdapter);
+    }
+
+    @Bean
+    @Autowired
+    ResponseReader responseReader(RequestAdapter requestAdapter) {
+        return new ResponseReaderImpl(requestAdapter);
     }
 }
