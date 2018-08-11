@@ -1,5 +1,8 @@
 package hu.psprog.leaflet.cbfs.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import hu.psprog.leaflet.bridge.client.BridgeClient;
 import hu.psprog.leaflet.bridge.client.handler.InvocationFactory;
@@ -29,6 +32,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Custom configuration for Bridge.
@@ -69,9 +73,21 @@ public class FailoverBridgeConfiguration {
     }
 
     @Bean
-    WebTarget webTarget() {
+    public ObjectMapper objectMapper() {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.setTimeZone(TimeZone.getDefault());
+
+        return mapper;
+    }
+
+    @Bean
+    @Autowired
+    WebTarget webTarget(ObjectMapper objectMapper) {
         return ClientBuilder.newBuilder()
-                .register(JacksonJsonProvider.class)
+                .register(new JacksonJsonProvider(objectMapper))
                 .build()
                 .target(leafletHostURL);
     }
