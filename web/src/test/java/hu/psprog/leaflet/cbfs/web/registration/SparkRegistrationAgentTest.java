@@ -2,7 +2,7 @@ package hu.psprog.leaflet.cbfs.web.registration;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
