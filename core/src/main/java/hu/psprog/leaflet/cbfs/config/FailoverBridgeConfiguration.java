@@ -13,10 +13,7 @@ import hu.psprog.leaflet.bridge.client.impl.ResponseReaderImpl;
 import hu.psprog.leaflet.bridge.client.request.RequestAdapter;
 import hu.psprog.leaflet.bridge.client.request.RequestAuthentication;
 import hu.psprog.leaflet.bridge.client.request.strategy.CallStrategy;
-import hu.psprog.leaflet.bridge.client.request.strategy.impl.DeleteCallStrategy;
 import hu.psprog.leaflet.bridge.client.request.strategy.impl.GetCallStrategy;
-import hu.psprog.leaflet.bridge.client.request.strategy.impl.PostCallStrategy;
-import hu.psprog.leaflet.bridge.client.request.strategy.impl.PutCallStrategy;
 import hu.psprog.leaflet.bridge.service.CategoryBridgeService;
 import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
 import hu.psprog.leaflet.bridge.service.EntryBridgeService;
@@ -26,7 +23,6 @@ import hu.psprog.leaflet.bridge.service.impl.EntryBridgeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.ws.rs.client.ClientBuilder;
