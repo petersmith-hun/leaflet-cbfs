@@ -7,7 +7,7 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.0</version>
+    <version>1.3.0-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
