@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CategorizedEntryPageControllerRegistrationTest extends RegistrationTestBase {
 
-    private static final String PATH_CATEGORIZED_ENTRY_PAGE = "/entries/:categoryID/page/:page";
+    private static final String PATH_CATEGORIZED_ENTRY_PAGE = "/entries/category/:categoryID/page/:page";
     private static final Integer PAGE_NUMBER = 2;
     private static final Long CATEGORY_ID = 3L;
 

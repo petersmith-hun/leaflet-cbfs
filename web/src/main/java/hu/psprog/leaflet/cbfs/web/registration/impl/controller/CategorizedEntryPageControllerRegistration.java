@@ -16,7 +16,7 @@ import spark.Route;
 @Component
 public class CategorizedEntryPageControllerRegistration extends AbstractGetControllerRegistration {
 
-    private static final String PATH_CATEGORIZED_ENTRY_PAGE = "/entries/:categoryID/page/:page";
+    private static final String PATH_CATEGORIZED_ENTRY_PAGE = "/entries/category/:categoryID/page/:page";
 
     private CategorizedEntryPageSnapshotRetrievalService retrievalService;
 
