@@ -7,7 +7,7 @@
     <groupId>hu.psprog.leaflet</groupId>
     <artifactId>cbfs</artifactId>
     <packaging>pom</packaging>
-    <version>1.4.0-dev</version>
+    <version>1.4.1-dev</version>
     <name>Leaflet Content Backup Failover System</name>
 
     <modules>
@@ -23,7 +23,8 @@
         <!-- leaflet internal dependency versions -->
         <leaflet-rcp.version>1.4.0</leaflet-rcp.version>
         <leaflet.tlp-appender.version>1.1.0</leaflet.tlp-appender.version>
-        <leaflet.bridge.version>3.1.0</leaflet.bridge.version>
+        <leaflet.bridge.version>3.2.1</leaflet.bridge.version>
+        <leaflet.rest-api.version>1.6.1</leaflet.rest-api.version>
 
         <!-- dependency versions -->
         <spark-java.version>2.8.0</spark-java.version>
@@ -84,6 +85,11 @@
                 <artifactId>bridge-implementation</artifactId>
                 <version>${leaflet.bridge.version}</version>
             </dependency>
+            <dependency>
+                <groupId>hu.psprog.leaflet</groupId>
+                <artifactId>leaflet-rest-api</artifactId>
+                <version>${leaflet.rest-api.version}</version>
+            </dependency>
 
             <!-- frameworks -->
             <dependency>
@@ -117,6 +123,11 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
 

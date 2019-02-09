@@ -7,10 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,8 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CreationDateLimitValidatorTest {
 
     private static final String CREATION_DATE_LIMIT = "2018-02-03";
-    private static final DateFormat DEFAULT_DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.getDefault());
-    private static final Date CREATION_DATE_LIMIT_AS_DATE = prepareDate(3);
+    private static final ZonedDateTime CREATION_DATE_LIMIT_AS_DATE = prepareDate(3);
 
     private CreationDateLimitValidator creationDateLimitValidator;
 
@@ -127,16 +124,13 @@ public class CreationDateLimitValidatorTest {
         return WrapperBodyDataModel.getBuilder()
                 .withBody(ExtendedEntryDataModel.getExtendedBuilder()
                         .withCreated(parsableDate
-                                ? DEFAULT_DATE_FORMAT.format(prepareDate(afterLimit ? 4 : 2))
-                                : "invalid-date")
+                                ? prepareDate(afterLimit ? 4 : 2)
+                                : null)
                         .build())
                 .build();
     }
 
-    private static Date prepareDate(int day) {
-        return new Calendar.Builder()
-                .setDate(2018, 1, day)
-                .build()
-                .getTime();
+    private static ZonedDateTime prepareDate(int day) {
+        return ZonedDateTime.of(2018, 2, day, 0, 0, 0, 0, ZoneId.systemDefault());
     }
 }

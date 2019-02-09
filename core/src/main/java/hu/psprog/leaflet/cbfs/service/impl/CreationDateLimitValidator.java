@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 /**
@@ -28,19 +28,18 @@ public class CreationDateLimitValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CreationDateLimitValidator.class);
 
-    private static final DateFormat LIMIT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static final DateFormat DEFAULT_DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.getDefault());
+    private static final DateTimeFormatter LIMIT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private Date creationDateLimit;
+    private ZonedDateTime creationDateLimit;
 
     @Autowired
     public CreationDateLimitValidator(@Value("${mirroring.entries.latest}") String creationDateLimit) {
         try {
             if (Objects.nonNull(creationDateLimit) && !StringUtils.EMPTY.equals(creationDateLimit)) {
-                this.creationDateLimit = LIMIT_DATE_FORMAT.parse(creationDateLimit);
+                this.creationDateLimit = LocalDate.parse(creationDateLimit, LIMIT_DATE_FORMAT).atStartOfDay(ZoneId.systemDefault());
                 LOGGER.warn("Entries created after {} will be dropped during mirroring", this.creationDateLimit);
             }
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             LOGGER.warn("Limit date {} provided in invalid format - limitation will be turned off", creationDateLimit);
         }
     }
@@ -56,10 +55,9 @@ public class CreationDateLimitValidator {
         boolean applicable = true;
         if (Objects.nonNull(creationDateLimit)) {
             try {
-                Date creationDate = DEFAULT_DATE_FORMAT.parse(data.getBody().getCreated());
-                applicable = creationDate.after(creationDateLimit);
-            } catch (ParseException e) {
-                LOGGER.error("Failed to parse creation date [{}] of entry [{}] - returning successful validation", data.getBody().getCreated(), data.getBody().getLink());
+                applicable = data.getBody().getCreated().isAfter(creationDateLimit);
+            } catch (Exception e) {
+                LOGGER.warn("Failed to check creation date [{}] of entry [{}] - returning successful validation", data.getBody().getCreated(), data.getBody().getLink());
             }
         }
 
@@ -71,7 +69,7 @@ public class CreationDateLimitValidator {
      *
      * @return currently set creation date limit
      */
-    public Date getCreationDateLimit() {
+    public ZonedDateTime getCreationDateLimit() {
         return creationDateLimit;
     }
 }
