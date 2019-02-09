@@ -9,6 +9,7 @@ open module leaflet.app.cbfs.core {
     requires java.ws.rs;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.jsr310;
     requires com.fasterxml.jackson.jaxrs.json;
     requires h2;
     requires metrics.annotation;
