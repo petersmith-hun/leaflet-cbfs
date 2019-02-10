@@ -25,7 +25,6 @@ public class CategoryListSnapshotRetrievalService implements SnapshotRetrievalSe
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryListSnapshotRetrievalService.class);
 
-    private static final String BODY = "body";
     private static final String CATEGORIES = "categories";
 
     private CategoryDAO categoryDAO;
@@ -40,7 +39,7 @@ public class CategoryListSnapshotRetrievalService implements SnapshotRetrievalSe
     @Override
     public String retrieve(Void key) {
 
-        Map<String, Map<String, List<Category>>> result = buildWrapper(categoryDAO.getCategories());
+        Map<String, List<Category>> result = buildWrapper(categoryDAO.getCategories());
         String snapshot = StringUtils.EMPTY;
         try {
             snapshot = objectMapper.writeValueAsString(result);
@@ -51,14 +50,11 @@ public class CategoryListSnapshotRetrievalService implements SnapshotRetrievalSe
         return snapshot;
     }
 
-    private Map<String, Map<String, List<Category>>> buildWrapper(List<Category> categoryList) {
+    private Map<String, List<Category>> buildWrapper(List<Category> categoryList) {
 
         Map<String, List<Category>> categoryMap = new HashMap<>();
         categoryMap.put(CATEGORIES, categoryList);
 
-        Map<String, Map<String, List<Category>>> wrapper = new HashMap<>();
-        wrapper.put(BODY, categoryMap);
-
-        return wrapper;
+        return categoryMap;
     }
 }

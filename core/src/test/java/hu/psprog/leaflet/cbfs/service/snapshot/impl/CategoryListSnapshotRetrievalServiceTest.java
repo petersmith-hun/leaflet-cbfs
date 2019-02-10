@@ -29,7 +29,7 @@ import static org.mockito.Mockito.doThrow;
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryListSnapshotRetrievalServiceTest {
 
-    private static final String EXPECTED_JSON_VALUE = "{\"body\":{\"categories\":[{\"id\":1,\"title\":\"category-1\"},{\"id\":2,\"title\":\"category-2\"}]}}";
+    private static final String EXPECTED_JSON_VALUE = "{\"categories\":[{\"id\":1,\"title\":\"category-1\"},{\"id\":2,\"title\":\"category-2\"}]}";
 
     @Mock
     private CategoryDAO categoryDAO;
