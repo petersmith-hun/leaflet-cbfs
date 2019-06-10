@@ -81,6 +81,19 @@ public class FailoverStatusFilterTest extends RegistrationTestBase {
         verify(failoverStatusService, never()).trafficReceived();
     }
 
+    @Test
+    public void shouldFilterNotCallFailoverStatusServiceForInfoEndpoint() throws Exception {
+
+        // given
+        given(request.pathInfo()).willReturn("/info");
+
+        // when
+        getFilterExpression().handle(request, response);
+
+        // then
+        verify(failoverStatusService, never()).trafficReceived();
+    }
+
     private Filter getFilterExpression() {
 
         Method filterMethod = ReflectionUtils.findMethod(FailoverStatusFilter.class, STATUS_FILTER);

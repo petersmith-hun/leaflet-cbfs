@@ -3,6 +3,7 @@ open module leaflet.app.cbfs.web {
     requires leaflet.component.rest.failover.api;
     requires leaflet.component.tlp.appender;
 
+    requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires slf4j.api;
     requires spark.core;
