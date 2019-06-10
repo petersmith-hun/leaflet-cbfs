@@ -1,6 +1,5 @@
 package hu.psprog.leaflet.cbfs.web.config.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -22,16 +21,9 @@ public class AppInfo {
 
     static final String PROPERTY_SOURCE = "classpath:version.properties";
 
-    @JsonProperty("build.version")
     private final String appVersion;
-
-    @JsonProperty("build.time")
     private final String builtOn;
-
-    @JsonProperty("app.name")
     private final String appName;
-
-    @JsonProperty("app.abbreviation")
     private final String appAbbreviation;
 
     @Autowired
