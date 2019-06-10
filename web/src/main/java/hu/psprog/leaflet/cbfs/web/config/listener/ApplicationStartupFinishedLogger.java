@@ -1,10 +1,9 @@
 package hu.psprog.leaflet.cbfs.web.config.listener;
 
+import hu.psprog.leaflet.cbfs.web.config.domain.AppInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,25 +13,18 @@ import org.springframework.stereotype.Component;
  * @author Peter Smith
  */
 @Component
-@PropertySource(ApplicationStartupFinishedLogger.PROPERTY_SOURCE)
 public class ApplicationStartupFinishedLogger {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationStartupFinishedLogger.class);
-    private static final String APP_VERSION = "${app.version}";
-    private static final String APP_BUILT = "${app.built}";
 
-    static final String PROPERTY_SOURCE = "classpath:version.properties";
-
-    private final String appVersion;
-    private final String builtOn;
+    private AppInfo appInfo;
 
     @Autowired
-    public ApplicationStartupFinishedLogger(@Value(APP_VERSION) String appVersion, @Value(APP_BUILT) String builtOn) {
-        this.appVersion = appVersion;
-        this.builtOn = builtOn;
+    public ApplicationStartupFinishedLogger(AppInfo appInfo) {
+        this.appInfo = appInfo;
     }
 
     public void logStartupFinished() {
-        LOGGER.info("Application loaded successfully, running version v{}, built on {}", appVersion, builtOn);
+        LOGGER.info("Application loaded successfully, running version v{}, built on {}", appInfo.getAppVersion(), appInfo.getBuiltOn());
     }
 }

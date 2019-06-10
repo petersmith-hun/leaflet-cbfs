@@ -16,6 +16,7 @@ import spark.Spark;
 public class FailoverStatusFilter implements SparkRegistration {
 
     private static final String STATUS_ENDPOINT = "/status";
+    private static final String INFO_ENDPOINT = "/info";
 
     private FailoverStatusService failoverStatusService;
 
@@ -31,7 +32,7 @@ public class FailoverStatusFilter implements SparkRegistration {
 
     private Filter statusFilter() {
         return (request, response) -> {
-            if (!request.pathInfo().endsWith(STATUS_ENDPOINT)) {
+            if (!(request.pathInfo().endsWith(STATUS_ENDPOINT) || request.pathInfo().endsWith(INFO_ENDPOINT))) {
                 failoverStatusService.trafficReceived();
             }
         };
