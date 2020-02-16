@@ -11,13 +11,13 @@ open module leaflet.app.cbfs.core {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.datatype.jsr310;
     requires com.fasterxml.jackson.jaxrs.json;
-    requires h2;
+    requires com.h2database;
     requires metrics.annotation;
     requires metrics.core;
     requires metrics.graphite;
     requires metrics.spring;
     requires org.apache.commons.lang3;
-    requires slf4j.api;
+    requires org.slf4j;
     requires spring.beans;
     requires spring.context;
     requires spring.core;

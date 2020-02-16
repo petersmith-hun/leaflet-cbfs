@@ -5,7 +5,7 @@ open module leaflet.app.cbfs.web {
 
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
-    requires slf4j.api;
+    requires org.slf4j;
     requires spark.core;
     requires spring.beans;
     requires spring.context;
