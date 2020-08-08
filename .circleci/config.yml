@@ -11,12 +11,6 @@ parameters:
   release_tag_pattern:
     type: string
     default: 's/v[0-9]+\.[0-9]+\.[0-9]+\.([0-9]+)-release/\1/'
-  auto_deploy:
-    type: boolean
-    default: true
-  auto_start:
-    type: boolean
-    default: true
   executable_file:
     type: string
     default: "leaflet-cbfs.jar"
@@ -75,18 +69,16 @@ jobs:
           command: echo 'export PROJECT_VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout --non-recursive`' >> $BASH_ENV
           name: Extract project version
       - run:
-          command: mvn clean install -s .circleci/settings.xml
+          command: mvn clean deploy -s .circleci/settings.xml
           name: Build
       - run:
           command: |
             mkdir -p << pipeline.parameters.workspace_dir >>
-            cp ./<< pipeline.parameters.executable_source_dir >><< pipeline.parameters.executable_file >> << pipeline.parameters.workspace_dir >>/<< pipeline.parameters.executable_file >>
             echo $PROJECT_VERSION >> << pipeline.parameters.workspace_dir >>/<< pipeline.parameters.version_file >>
           name: Prepare workspace shared storage
       - persist_to_workspace:
           root: << pipeline.parameters.workspace_dir >>
           paths:
-            - << pipeline.parameters.executable_file >>
             - << pipeline.parameters.version_file >>
       - store_artifacts:
           path: << pipeline.parameters.executable_source_dir >><< pipeline.parameters.executable_file >>
@@ -107,15 +99,26 @@ jobs:
           name: Set project version
       - run:
           command: |
-            domino_response=$(curl \
+            domino_deploy_response=$(curl \
                  --silent --write-out "%{http_code}" --output /dev/null \
                  --header "Authorization: Bearer ${LEAFLET_CI_DOMINO_AUTH_TOKEN}" \
-                 --form 'executable=@<< pipeline.parameters.workspace_dir >>/<< pipeline.parameters.executable_file >>' \
-                 "${LEAFLET_CI_DOMINO_HOST}/upload/<< pipeline.parameters.app_name >>/${PROJECT_VERSION}?autodeploy=<< pipeline.parameters.auto_deploy >>&autostart=<< pipeline.parameters.auto_start >>")
+                 "${LEAFLET_CI_DOMINO_HOST}/deploy/<< pipeline.parameters.app_name >>/${PROJECT_VERSION}")
 
-            case $domino_response in
+            case $domino_deploy_response in
+              201 | 202)
+                  # deployment may continue - fall through
+                  ;;
+              *) echo "Domino deployment request returned with status_code=$domino_deploy_response" && exit 1 ;;
+            esac
+
+            domino_start_response=$(curl \
+                 --silent --write-out "%{http_code}" --output /dev/null \
+                 --header "Authorization: Bearer ${LEAFLET_CI_DOMINO_AUTH_TOKEN}" \
+                 "${LEAFLET_CI_DOMINO_HOST}/start/<< pipeline.parameters.app_name >>")
+
+            case $domino_start_response in
               201 | 202) exit 0 ;;
-              *) echo "Domino returned with status_code=$domino_response" && exit 1 ;;
+              *) echo "Domino application start request returned with status_code=$domino_start_response" && exit 1 ;;
             esac
 
           name: Send executable to Domino

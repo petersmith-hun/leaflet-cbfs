@@ -40,6 +40,8 @@
         <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
 
         <!-- test framework versions -->
         <junit.version>4.12</junit.version>
@@ -54,6 +56,12 @@
         <!-- compiler settings -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!-- Docker build configuration -->
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.repository>${LEAFLET_DOCKER_REGISTRY_HOST}</docker.repository>
+        <docker.image-name>cbfs</docker.image-name>
+        <docker.skip>true</docker.skip>
 
         <!-- maven settings -->
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -284,6 +292,14 @@
                         <arg>--add-exports</arg>
                         <arg>com.fasterxml.jackson.jaxrs.json/com.fasterxml.jackson.jaxrs.json=leaflet.app.cbfs.core</arg>
                     </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
