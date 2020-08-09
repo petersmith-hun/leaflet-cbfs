@@ -68,6 +68,7 @@ jobs:
       - run:
           command: echo 'export PROJECT_VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout --non-recursive`' >> $BASH_ENV
           name: Extract project version
+      - setup_remote_docker
       - run:
           command: mvn clean deploy -s .circleci/settings.xml
           name: Build
