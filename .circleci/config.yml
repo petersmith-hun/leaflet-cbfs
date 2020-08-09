@@ -104,8 +104,9 @@ jobs:
           command: |
             domino_deploy_response=$(curl \
                  --silent --write-out "%{http_code}" --output /dev/null \
+                 --request PUT \
                  --header "Authorization: Bearer ${LEAFLET_CI_DOMINO_AUTH_TOKEN}" \
-                 "${LEAFLET_CI_DOMINO_HOST}/deploy/<< pipeline.parameters.app_name >>/${PROJECT_VERSION}")
+                 "${LEAFLET_CI_DOMINO_HOST}/lifecycle/<< pipeline.parameters.app_name >>/deploy/${PROJECT_VERSION}")
 
             case $domino_deploy_response in
               201 | 202) echo "Domino deployment request was successful, deployment may continue" ;;
@@ -114,8 +115,9 @@ jobs:
 
             domino_start_response=$(curl \
                  --silent --write-out "%{http_code}" --output /dev/null \
+                 --request PUT \
                  --header "Authorization: Bearer ${LEAFLET_CI_DOMINO_AUTH_TOKEN}" \
-                 "${LEAFLET_CI_DOMINO_HOST}/start/<< pipeline.parameters.app_name >>")
+                 "${LEAFLET_CI_DOMINO_HOST}/lifecycle/<< pipeline.parameters.app_name >>/start")
 
             case $domino_start_response in
               201 | 202) exit 0 ;;
