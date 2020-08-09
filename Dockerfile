@@ -3,6 +3,7 @@ FROM openjdk:11-jre-slim
 ARG APP_USER=leaflet
 ARG APP_HOME=/opt/cbfs
 ARG APP_EXECUTABLE=leaflet-cbfs.jar
+ENV ENV_APP_EXECUTABLE=$APP_EXECUTABLE
 
 RUN addgroup --system --gid 1000 $APP_USER
 RUN adduser --system --no-create-home --gid 1000 --uid 1000 $APP_USER
@@ -17,4 +18,4 @@ RUN chown $APP_USER:$APP_USER $APP_EXECUTABLE
 
 USER $APP_USER
 
-ENTRYPOINT java ${JVM_ARGS} -jar $APP_EXECUTABLE
+ENTRYPOINT java ${JVM_ARGS} -jar $ENV_APP_EXECUTABLE
