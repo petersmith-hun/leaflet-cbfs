@@ -75,11 +75,13 @@ jobs:
       - run:
           command: |
             mkdir -p << pipeline.parameters.workspace_dir >>
+            cp ./<< pipeline.parameters.executable_source_dir >><< pipeline.parameters.executable_file >> << pipeline.parameters.workspace_dir >>/<< pipeline.parameters.executable_file >>
             echo $PROJECT_VERSION >> << pipeline.parameters.workspace_dir >>/<< pipeline.parameters.version_file >>
           name: Prepare workspace shared storage
       - persist_to_workspace:
           root: << pipeline.parameters.workspace_dir >>
           paths:
+            - << pipeline.parameters.executable_file >>
             - << pipeline.parameters.version_file >>
       - store_artifacts:
           path: << pipeline.parameters.executable_source_dir >><< pipeline.parameters.executable_file >>
