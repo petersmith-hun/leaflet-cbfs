@@ -106,9 +106,7 @@ jobs:
                  "${LEAFLET_CI_DOMINO_HOST}/deploy/<< pipeline.parameters.app_name >>/${PROJECT_VERSION}")
 
             case $domino_deploy_response in
-              201 | 202)
-                  # deployment may continue - fall through
-                  ;;
+              201 | 202) echo "Domino deployment request was successful, deployment may continue" ;;
               *) echo "Domino deployment request returned with status_code=$domino_deploy_response" && exit 1 ;;
             esac
 
