@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.web.registration.impl.RegistrationTestBase;
 import hu.psprog.leaflet.failover.api.domain.StatusResponse;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import spark.Request;
 import spark.Response;
 import spark.route.HttpMethod;
@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class StatusControllerRegistrationTest extends RegistrationTestBase {
 
     private static final String PATH_STATUS = "/status";

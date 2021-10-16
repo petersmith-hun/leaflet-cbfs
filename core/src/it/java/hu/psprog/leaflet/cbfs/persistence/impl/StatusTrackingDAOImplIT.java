@@ -6,13 +6,13 @@ import hu.psprog.leaflet.failover.api.domain.FailoverStatus;
 import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import hu.psprog.leaflet.failover.api.domain.StatusEntry;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *
  * @author Peter Smith
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = FailoverPersistenceITConfig.class)
 @ActiveProfiles(FailoverPersistenceITConfig.PERSISTENCE_IT)
 public class StatusTrackingDAOImplIT {

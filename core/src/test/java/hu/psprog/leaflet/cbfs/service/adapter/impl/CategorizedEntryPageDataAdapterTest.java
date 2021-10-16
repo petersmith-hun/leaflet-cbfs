@@ -11,12 +11,11 @@ import hu.psprog.leaflet.cbfs.domain.EntryPage;
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
 import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.service.transformer.impl.EntryPageStorageTransformer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CategorizedEntryPageDataAdapterTest {
 
     private static final int PAGE_NUMBER = 2;
@@ -54,16 +53,13 @@ public class CategorizedEntryPageDataAdapterTest {
     @InjectMocks
     private CategorizedEntryPageDataAdapter categorizedEntryPageDataAdapter;
 
-    @Before
-    public void setup() {
+    @Test
+    public void shouldRetrieve() throws CommunicationFailureException {
+
+        // given
         given(mirroringConfiguration.getLimit()).willReturn(LIMIT);
         given(mirroringConfiguration.getOrderBy()).willReturn(ORDER_BY);
         given(mirroringConfiguration.getOrderDir()).willReturn(ORDER_DIRECTION);
-        given(entryPageStorageTransformer.transform(ENTRY_PAGE_KEY, RESULT)).willReturn(ENTRY_PAGE);
-    }
-
-    @Test
-    public void shouldRetrieve() throws CommunicationFailureException {
 
         // when
         categorizedEntryPageDataAdapter.retrieve(ENTRY_PAGE_KEY);
@@ -74,6 +70,9 @@ public class CategorizedEntryPageDataAdapterTest {
 
     @Test
     public void shouldStore() {
+
+        // given
+        given(entryPageStorageTransformer.transform(ENTRY_PAGE_KEY, RESULT)).willReturn(ENTRY_PAGE);
 
         // when
         categorizedEntryPageDataAdapter.store(ENTRY_PAGE_KEY, RESULT);

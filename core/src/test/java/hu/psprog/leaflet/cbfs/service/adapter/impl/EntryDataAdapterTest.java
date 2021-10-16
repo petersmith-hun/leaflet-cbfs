@@ -8,12 +8,11 @@ import hu.psprog.leaflet.cbfs.domain.Entry;
 import hu.psprog.leaflet.cbfs.persistence.EntryDAO;
 import hu.psprog.leaflet.cbfs.service.impl.CreationDateLimitValidator;
 import hu.psprog.leaflet.cbfs.service.transformer.impl.EntryStorageTransformer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EntryDataAdapterTest {
 
     private static final String LINK = "link-1";
@@ -50,11 +49,6 @@ public class EntryDataAdapterTest {
     @InjectMocks
     private EntryDataAdapter entryDataAdapter;
 
-    @Before
-    public void setup() {
-        given(entryStorageTransformer.transform(LINK, RESULT)).willReturn(ENTRY);
-    }
-
     @Test
     public void shouldRetrieve() throws CommunicationFailureException {
 
@@ -70,6 +64,7 @@ public class EntryDataAdapterTest {
 
         // given
         given(creationDateLimitValidator.isValid(RESULT)).willReturn(true);
+        given(entryStorageTransformer.transform(LINK, RESULT)).willReturn(ENTRY);
 
         // when
         entryDataAdapter.store(LINK, RESULT);
@@ -89,5 +84,6 @@ public class EntryDataAdapterTest {
 
         // then
         verify(entryDAO, never()).storeEntry(ENTRY);
+        verify(entryStorageTransformer, never()).transform(LINK, RESULT);
     }
 }

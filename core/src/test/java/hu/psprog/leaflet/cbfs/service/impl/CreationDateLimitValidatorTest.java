@@ -3,9 +3,9 @@ package hu.psprog.leaflet.cbfs.service.impl;
 import hu.psprog.leaflet.api.rest.response.common.WrapperBodyDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.ExtendedEntryDataModel;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CreationDateLimitValidatorTest {
 
     private static final String CREATION_DATE_LIMIT = "2018-02-03";

@@ -7,11 +7,11 @@ import hu.psprog.leaflet.failover.api.domain.MirrorStatus;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
 import hu.psprog.leaflet.failover.api.domain.StatusEntry;
 import hu.psprog.leaflet.failover.api.domain.StatusResponse;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FailoverStatusServiceImplTest {
 
     @Mock
@@ -43,7 +43,7 @@ public class FailoverStatusServiceImplTest {
 
     private FailoverStatusService failoverStatusService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         failoverStatusService = new FailoverStatusServiceImpl(3, TimeUnit.SECONDS, statusTrackingDAO);
     }

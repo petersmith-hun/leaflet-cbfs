@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.psprog.leaflet.cbfs.domain.Category;
 import hu.psprog.leaflet.cbfs.persistence.CategoryDAO;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.doThrow;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CategoryListSnapshotRetrievalServiceTest {
 
     private static final String EXPECTED_JSON_VALUE = "{\"categories\":[{\"id\":1,\"title\":\"category-1\"},{\"id\":2,\"title\":\"category-2\"}]}";

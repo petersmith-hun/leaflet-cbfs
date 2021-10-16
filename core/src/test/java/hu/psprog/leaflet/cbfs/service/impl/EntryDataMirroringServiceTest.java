@@ -7,12 +7,12 @@ import hu.psprog.leaflet.cbfs.persistence.EntryPageDAO;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.EntryDataAdapter;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EntryDataMirroringServiceTest {
 
     private static final WrapperBodyDataModel<ExtendedEntryDataModel> ENTRY_DATA = WrapperBodyDataModel.getBuilder().build();
@@ -48,14 +48,16 @@ public class EntryDataMirroringServiceTest {
     @InjectMocks
     private EntryDataMirroringService entryDataMirroringService;
 
-    @Before
+    @BeforeEach
     public void setup() throws CommunicationFailureException {
         given(entryPageDAO.collectAllEntryLinks()).willReturn(prepareLinkSet());
-        given(entryDataAdapter.retrieve(anyString())).willReturn(ENTRY_DATA);
     }
 
     @Test
     public void shouldLoadEntries() throws CommunicationFailureException {
+
+        // given
+        given(entryDataAdapter.retrieve(anyString())).willReturn(ENTRY_DATA);
 
         // when
         entryDataMirroringService.load();

@@ -2,11 +2,11 @@ package hu.psprog.leaflet.cbfs.web.registration.impl.controller;
 
 import hu.psprog.leaflet.cbfs.service.snapshot.impl.EntrySnapshotRetrievalService;
 import hu.psprog.leaflet.cbfs.web.registration.impl.RegistrationTestBase;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import spark.Request;
 import spark.Response;
 import spark.route.HttpMethod;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EntryByLinkControllerRegistrationTest extends RegistrationTestBase {
 
     private static final String PATH_ENTRIES_BY_LINK = "/entries/link/:link";
