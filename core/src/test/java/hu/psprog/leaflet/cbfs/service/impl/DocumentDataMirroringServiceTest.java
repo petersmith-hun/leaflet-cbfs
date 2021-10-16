@@ -9,11 +9,11 @@ import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.DocumentDataAdapter;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DocumentDataMirroringServiceTest {
 
     private static final WrapperBodyDataModel<DocumentDataModel> DOCUMENT_DATA = WrapperBodyDataModel.getBuilder().build();

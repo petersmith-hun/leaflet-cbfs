@@ -13,12 +13,12 @@ import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.CategorizedEntryPageDataAdapter;
 import hu.psprog.leaflet.cbfs.service.adapter.impl.NonCategorizedEntryPageDataAdapter;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EntryPageDataMirroringServiceTest {
 
     private static final int FIRST_PAGE = 1;
@@ -60,7 +60,7 @@ public class EntryPageDataMirroringServiceTest {
     @InjectMocks
     private EntryPageDataMirroringService entryPageDataMirroringService;
 
-    @Before
+    @BeforeEach
     public void setup() throws IllegalAccessException {
         given(mirroringConfiguration.getFirstPage()).willReturn(FIRST_PAGE);
         Field maxPagesField = ReflectionUtils.findField(EntryPageDataMirroringService.class, "maxPages");

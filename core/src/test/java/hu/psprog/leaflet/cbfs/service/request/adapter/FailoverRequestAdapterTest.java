@@ -1,7 +1,7 @@
 package hu.psprog.leaflet.cbfs.service.request.adapter;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +17,7 @@ public class FailoverRequestAdapterTest {
 
     private FailoverRequestAdapter failoverRequestAdapter;
 
-    @Before
+    @BeforeEach
     public void setup() {
         failoverRequestAdapter = new FailoverRequestAdapter(COMMON_ID);
     }

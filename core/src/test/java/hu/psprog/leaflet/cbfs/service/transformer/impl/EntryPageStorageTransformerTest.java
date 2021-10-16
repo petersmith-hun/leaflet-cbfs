@@ -7,12 +7,12 @@ import hu.psprog.leaflet.api.rest.response.entry.EntryDataModel;
 import hu.psprog.leaflet.api.rest.response.entry.EntryListDataModel;
 import hu.psprog.leaflet.cbfs.domain.EntryPage;
 import hu.psprog.leaflet.cbfs.domain.EntryPageKey;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.given;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EntryPageStorageTransformerTest {
 
     private static final int PAGE_NUMBER = 2;
@@ -43,7 +43,7 @@ public class EntryPageStorageTransformerTest {
 
     private WrapperBodyDataModel<EntryListDataModel> source;
 
-    @Before
+    @BeforeEach
     public void setup() throws JsonProcessingException {
         source = prepareWrapper();
         given(objectMapper.writeValueAsString(source)).willReturn(CONVERTED_SOURCE);

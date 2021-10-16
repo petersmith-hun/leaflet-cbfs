@@ -7,12 +7,11 @@ import hu.psprog.leaflet.bridge.service.DocumentBridgeService;
 import hu.psprog.leaflet.cbfs.domain.Document;
 import hu.psprog.leaflet.cbfs.persistence.DocumentDAO;
 import hu.psprog.leaflet.cbfs.service.transformer.impl.DocumentStorageTransformer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DocumentDataAdapterTest {
 
     private static final String LINK = "link-1";
@@ -41,11 +40,6 @@ public class DocumentDataAdapterTest {
     @InjectMocks
     private DocumentDataAdapter documentDataAdapter;
 
-    @Before
-    public void setup() {
-        given(documentStorageTransformer.transform(LINK, RESULT)).willReturn(DOCUMENT);
-    }
-
     @Test
     public void shouldRetrieve() throws CommunicationFailureException {
 
@@ -58,6 +52,9 @@ public class DocumentDataAdapterTest {
 
     @Test
     public void shouldStore() {
+
+        // given
+        given(documentStorageTransformer.transform(LINK, RESULT)).willReturn(DOCUMENT);
 
         // when
         documentDataAdapter.store(LINK, RESULT);

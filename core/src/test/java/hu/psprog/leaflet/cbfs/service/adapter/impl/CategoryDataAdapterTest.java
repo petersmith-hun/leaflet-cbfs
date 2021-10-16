@@ -7,12 +7,11 @@ import hu.psprog.leaflet.bridge.service.CategoryBridgeService;
 import hu.psprog.leaflet.cbfs.domain.Category;
 import hu.psprog.leaflet.cbfs.persistence.CategoryDAO;
 import hu.psprog.leaflet.cbfs.service.transformer.impl.CategoryStorageTransformer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CategoryDataAdapterTest {
 
     private static final Long CATEGORY_ID = 3L;
@@ -47,11 +46,6 @@ public class CategoryDataAdapterTest {
     @InjectMocks
     private CategoryDataAdapter categoryDataAdapter;
 
-    @Before
-    public void setup() {
-        given(categoryStorageTransformer.transform(CATEGORY_ID, CATEGORY_DATA_MODEL)).willReturn(CATEGORY);
-    }
-
     @Test
     public void shouldRetrieve() throws CommunicationFailureException {
 
@@ -64,6 +58,9 @@ public class CategoryDataAdapterTest {
 
     @Test
     public void shouldStore() {
+
+        // given
+        given(categoryStorageTransformer.transform(CATEGORY_ID, CATEGORY_DATA_MODEL)).willReturn(CATEGORY);
 
         // when
         categoryDataAdapter.store(null, RESULT);

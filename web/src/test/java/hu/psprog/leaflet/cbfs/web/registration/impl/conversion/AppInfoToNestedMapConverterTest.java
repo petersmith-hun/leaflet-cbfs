@@ -1,10 +1,10 @@
 package hu.psprog.leaflet.cbfs.web.registration.impl.conversion;
 
 import hu.psprog.leaflet.cbfs.web.config.domain.AppInfo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AppInfoToNestedMapConverterTest {
 
     private static final String APP_VERSION = "v1.0";

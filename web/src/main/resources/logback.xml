@@ -13,9 +13,9 @@
         <append>true</append>
     </appender>
     <appender name="TLP" class="hu.psprog.leaflet.tlp.appender.TinyLogProcessorAppender">
-        <appID>${tlp.appID}</appID>
-        <enabled>${tlp.enabled}</enabled>
-        <host>${tlp.host}</host>
+        <appID>@tlp.appID@</appID>
+        <enabled>@tlp.enabled@</enabled>
+        <host>@tlp.host@</host>
     </appender>
     <appender name="ASYNC-TLP" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="TLP" />

@@ -5,11 +5,11 @@ import hu.psprog.leaflet.cbfs.persistence.TruncateCapableDAO;
 import hu.psprog.leaflet.cbfs.service.DataMirroringService;
 import hu.psprog.leaflet.cbfs.service.FailoverStatusService;
 import hu.psprog.leaflet.failover.api.domain.MirrorType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Peter Smith
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DataMirroringJobTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TruncateMock.class);
@@ -47,7 +47,7 @@ public class DataMirroringJobTest {
     @Mock
     private BackendAvailabilityChecker backendAvailabilityChecker;
 
-    @Before
+    @BeforeEach
     public void setup() {
         dataMirroringJob = new DataMirroringJob(
                 Arrays.asList(new MirrorMock(2, MIRROR_2), new MirrorMock(1, MIRROR_1), new MirrorMock(3, MIRROR_3)),
